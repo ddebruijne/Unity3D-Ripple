@@ -18,6 +18,8 @@ public enum NoteType {
 public class Note : MonoBehaviour {
 
 	[ReadOnly] public NoteType ThisNotesType;
+	[ReadOnly] public bool activated = false;
+
 	bool move;
 
 	void Start () {
@@ -58,8 +60,11 @@ public class Note : MonoBehaviour {
 
 	//action to take when the correct button is pressed in the correct radius
 	public void Activate() {
-		Debug.Log("A note activated!!");
-		move = false;
-		Camera.main.GetComponent<GameManager>().AddScore();
+		if ( !activated ) {
+			Debug.Log("A note activated!!");
+			move = false;
+			activated = true;
+			Camera.main.GetComponent<GameManager>().AddScore();
+		}
 	}
 }
