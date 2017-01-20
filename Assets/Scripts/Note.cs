@@ -18,6 +18,7 @@ public enum NoteType {
 public class Note : MonoBehaviour {
 
 	[ReadOnly] public NoteType ThisNotesType;
+	bool move;
 
 	void Start () {
 		//TEMP DEFAULT NOTETYPE:	DELETE WHEN LINE SPAWNER IS READY
@@ -25,7 +26,7 @@ public class Note : MonoBehaviour {
 	}
 	
 	void Update () {
-		
+		if ( move )  transform.position = new Vector3(transform.position.x - 0.1f, transform.position.y, 1);
 	}
 
 	void SetNoteType(NoteType type) {
@@ -53,5 +54,7 @@ public class Note : MonoBehaviour {
 	//action to take when the correct button is pressed in the correct radius
 	public void Activate() {
 		Debug.Log("A note activated!!");
+		move = false;
+		Camera.main.GetComponent<GameManager>().AddScore();
 	}
 }
