@@ -10,7 +10,7 @@ using UnityEngine;
 
 public class Player : MonoBehaviour {
 
-	public float ButtonActivationRadius = 5;
+	public float NoteActivationRadius = 10;
 
 	void Start () {
 		//Maybe this can be HP?
@@ -46,10 +46,38 @@ public class Player : MonoBehaviour {
 	}
 
 	void CheckIfNoteIsNear(NoteType Color) {
-		Debug.Log("Checking if note of " + Color.ToString() + " is near.");
-		//see if a gameobject of tag is closer than activation radius
-		//if the gameobject is close is of the correct color that was pressed.
-		//if both are true, call the Activate action on the note.
+
+		GameObject[] NotesInScene = GameObject.FindGameObjectsWithTag("Note");
+		GameObject closest = null;
+		float distance = Mathf.Infinity;
+
+		//Loop through all the notes in the scene, leaving with the one that's closest by.
+		foreach (GameObject go in NotesInScene ) {
+			Vector3 diff = go.transform.position - transform.position;
+			float curDistance = diff.sqrMagnitude;
+			if(curDistance < distance ) {
+				closest = go;
+				distance = curDistance;
+			}
+		}
+		Debug.Log("Note distance: " + distance);
+		if(closest != null ) {
+
+			if(distance < NoteActivationRadius ) {
+				//Check the color
+				if ( closest.GetComponent<Note>().ThisNotesType.Equals(Color) ) {
+					closest.GetComponent<Note>().Activate();
+				} else {
+					Debug.Log("Closest note is not of correct color.");
+				}
+			} else {
+				Debug.Log("Note is not close enough!");
+			}
+		} else {
+			Debug.LogWarning("No note found.");
+		}
+
+
 	}
 
 	//The wave are individual sprites the player follows. This function places you on the next tile.

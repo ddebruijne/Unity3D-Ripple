@@ -51,7 +51,7 @@ public class Note : MonoBehaviour {
 	}
 
 	//action to take when the correct button is pressed in the correct radius
-	void Activate() {
-
+	public void Activate() {
+		Debug.Log("A note activated!!");
 	}
 }
