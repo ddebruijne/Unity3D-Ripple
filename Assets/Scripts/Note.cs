@@ -26,7 +26,7 @@ public class Note : MonoBehaviour {
 	}
 	
 	void Update () {
-		if ( move )  transform.position = new Vector3(transform.position.x - 0.1f, transform.position.y, 1);
+		if ( move )  transform.position = new Vector3(transform.position.x - 0.1f, transform.position.y, 0);
 	}
 
 	void SetNoteType(NoteType type) {
@@ -47,7 +47,7 @@ public class Note : MonoBehaviour {
 			break;
 			default:
 			break;
-
+		
 		}
 	}
 
