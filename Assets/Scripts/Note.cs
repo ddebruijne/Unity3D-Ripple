@@ -17,7 +17,7 @@ public enum NoteType {
 
 public class Note : MonoBehaviour {
 
-	public NoteType ThisNotesType;
+	[ReadOnly] public NoteType ThisNotesType;
 
 	void Start () {
 		//TEMP DEFAULT NOTETYPE:	DELETE WHEN LINE SPAWNER IS READY
@@ -31,6 +31,23 @@ public class Note : MonoBehaviour {
 	void SetNoteType(NoteType type) {
 		ThisNotesType = type;
 		//Set texture color
+		switch ( type ) {
+			case NoteType.Green:
+			GetComponent<Renderer>().material.SetColor("_Color", Color.green);
+			break;
+			case NoteType.Red:
+			GetComponent<Renderer>().material.SetColor("_Color", Color.red);
+			break;
+			case NoteType.Blue:
+			GetComponent<Renderer>().material.SetColor("_Color", Color.blue);
+			break;
+			case NoteType.Yellow:
+			GetComponent<Renderer>().material.SetColor("_Color", Color.yellow);
+			break;
+			default:
+			break;
+
+		}
 	}
 
 	//action to take when the correct button is pressed in the correct radius

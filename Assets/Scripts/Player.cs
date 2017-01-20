@@ -14,7 +14,7 @@ public class Player : MonoBehaviour {
 
 	void Start () {
 		//Maybe this can be HP?
-		SetPlayerColor(Color.green);
+		SetPlayerColor(Color.black);
 	}
 
 	void Update () {
