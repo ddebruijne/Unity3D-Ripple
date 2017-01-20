@@ -18,6 +18,8 @@ public class Player : MonoBehaviour {
 	}
 
 	void Update () {
+        transform.position = WaveGenerator.Instance.GetPlayerPoint();
+
 		ControllerInput();
 	}
 

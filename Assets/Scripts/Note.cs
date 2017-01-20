@@ -25,8 +25,16 @@ public class Note : MonoBehaviour {
 	}
 	
 	void Update () {
-		
+        transform.position += new Vector3(-WaveGenerator.Instance.waveSpeed, 0, 0);
+
+        if (Input.GetKeyDown(KeyCode.Space))
+            SetToWave();
 	}
+
+    [ContextMenu("Set to wave")]
+    private void SetToWave() {
+        transform.position = WaveGenerator.Instance.GetCurrentPoint();
+    }
 
 	void SetNoteType(NoteType type) {
 		ThisNotesType = type;

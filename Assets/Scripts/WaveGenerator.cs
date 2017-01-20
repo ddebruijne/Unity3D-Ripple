@@ -5,6 +5,8 @@ using UnityEngine;
 [RequireComponent(typeof(MeshFilter))]
 public class WaveGenerator : MonoBehaviour {
 
+    public static WaveGenerator Instance;
+
     [Header("Objects")]
     public Camera cam;
 
@@ -13,6 +15,8 @@ public class WaveGenerator : MonoBehaviour {
     public float waveWidth = 1;
     public float waveAmplitude = 4;
     public float currentWaveValue = 0;
+    [ReadOnly]
+    public float waveSpeed = 1;
 
     public AnimationCurve curveSquare;
 
@@ -22,6 +26,8 @@ public class WaveGenerator : MonoBehaviour {
 
     private float screenWidth;
     private float screenHeight;
+    private int playerRow = 0;
+    private Vector3 playerPosition = Vector3.zero;
 
     [Header("Mesh Objects")]
     public MeshFilter meshFilter;
@@ -30,8 +36,18 @@ public class WaveGenerator : MonoBehaviour {
 
     private Mesh mesh;
 
+    void Awake() {
+        Instance = this;
+    }
+
     void Start() {
+        screenHeight = cam.orthographicSize * 2;
+        screenWidth = ((float)Screen.width / (float)Screen.height) * screenHeight;
+
         vertRows = (segments + 1);
+        waveSpeed = screenWidth / vertRows;
+
+        playerRow = (int)(vertRows * 0.2f);
 
         CreateMesh();
     }
@@ -40,17 +56,18 @@ public class WaveGenerator : MonoBehaviour {
         screenHeight = cam.orthographicSize * 2;
         screenWidth = ((float)Screen.width / (float)Screen.height) * screenHeight;
 
-        /*if (waveType == 0)
-            currentWaveValue = Mathf.Sin(Time.time * 2) * 4;
-        else if (waveType == 1)
-            currentWaveValue = Mathf.Tan(Time.time * 2) * 4;*/
-
-        //currentWaveValue = curveSquare.Evaluate(Time.time) * waveAmplitude;
-        currentWaveValue = Mathf.Sin(Time.time * 5);
-        waveWidth = Mathf.Sin(Time.time * 2.5f) + 1.5f;
+        currentWaveValue = Mathf.Sin(Time.time);
 
         UpdateMesh();
 	}
+
+    public Vector3 GetCurrentPoint() {
+        return new Vector3(screenWidth / 2, currentWaveValue * waveAmplitude, 0);
+    }
+
+    public Vector3 GetPlayerPoint() {
+        return playerPosition;
+    }
 
     [ContextMenu("Create mesh")]
     public void CreateMesh() {
@@ -93,8 +110,6 @@ public class WaveGenerator : MonoBehaviour {
 
         mesh.vertices = verts;
         mesh.triangles = tris;
-
-        //UpdateMesh();
     }
 
     public void UpdateMesh() {
@@ -105,13 +120,17 @@ public class WaveGenerator : MonoBehaviour {
 
         for (int i = 0; i < vertRows; i++) {
             if (i == vertRows - 1) {
-                verts[startIndexVerts] = new Vector3(screenWidth / 2, waveWidthHalf + currentWaveValue, 0);          //Top right
-                verts[startIndexVerts + 1] = new Vector3(screenWidth / 2, -waveWidthHalf + currentWaveValue, 0);          //Bottom right
+                verts[startIndexVerts] = new Vector3(screenWidth / 2, waveWidthHalf + (currentWaveValue * waveAmplitude), 0);          //Top right
+                verts[startIndexVerts + 1] = new Vector3(screenWidth / 2, -waveWidthHalf + (currentWaveValue * waveAmplitude), 0);          //Bottom right
             } else {
                 Vector3 nextTop = mesh.vertices[startIndexVerts + 2];
                 Vector3 nextBottom = mesh.vertices[startIndexVerts + 3];
                 verts[startIndexVerts] = new Vector3(nextTop.x - (screenWidth / segments), nextTop.y);
                 verts[startIndexVerts + 1] = new Vector3(nextBottom.x - (screenWidth / segments), nextBottom.y);
+
+                if (i == playerRow) {
+                    playerPosition = new Vector3(nextTop.x, (nextTop.y + nextBottom.y) / 2, 0);
+                }
             }
 
             startIndexVerts += 2;
