@@ -10,11 +10,18 @@ using UnityEngine;
 
 public class Player : MonoBehaviour {
 
-	public float NoteActivationRadius = 10;
+	public float NoteActivationRadius = 2;
+	public bool debug = false;
 
 	void Start () {
 		//Maybe this can be HP?
 		SetPlayerColor(Color.black);
+
+		//Set starting position at 1/3rd of the horizontal resolution and 1/2th of the vertical resolution
+		Camera cam = Camera.main;
+		Vector3 Position = cam.ViewportToWorldPoint(new Vector3(0.333f, 0.5f, cam.nearClipPlane));
+		Position.z = 0;
+		this.transform.position = Position;
 	}
 
 	void Update () {
@@ -62,21 +69,20 @@ public class Player : MonoBehaviour {
 				distance = curDistance;
 			}
 		}
-		Debug.Log("Note distance: " + distance);
-		if(closest != null ) {
 
+		if(closest != null ) {
 			if(distance < NoteActivationRadius ) {
 				//Check the color
 				if ( closest.GetComponent<Note>().ThisNotesType.Equals(Color) ) {
 					closest.GetComponent<Note>().Activate();
 				} else {
-					Debug.Log("Closest note is not of correct color.");
+					if ( debug ) Debug.Log("Closest note is not of correct color.");
 				}
 			} else {
-				Debug.Log("Note is not close enough!");
+				if ( debug ) Debug.Log("Note is not close enough!");
 			}
 		} else {
-			Debug.LogWarning("No note found.");
+			if ( debug ) Debug.LogWarning("No note found.");
 		}
 
 
