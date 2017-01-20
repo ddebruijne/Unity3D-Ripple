@@ -2,15 +2,28 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/*
+ *		Player Class
+ *		Handles input from the controller and follows the appropriate tiles on the wave.
+ *		Created 20-01-2017 by Danny de Bruijne
+ */
+
 public class Player : MonoBehaviour {
 
-	// Use this for initialization
 	void Start () {
 		
 	}
 	
-	// Update is called once per frame
 	void Update () {
+		ControllerInput();
+	}
+
+	void FixedUpdate() {
+		FollowSprites();
+	}
+
+	//Checks for input from the player and takes appropriate action.
+	void ControllerInput() {
 		if ( Input.GetButtonDown("P1_Green") ) {
 			Debug.Log("HELLO IM P1_Green");
 		}
@@ -23,5 +36,10 @@ public class Player : MonoBehaviour {
 		if ( Input.GetButtonDown("P1_Yellow") ) {
 			Debug.Log("HELLO IM P1_Yellow");
 		}
+	}
+
+	//The wave are individual sprites the player follows. This function places you on the next tile.
+	void FollowSprites() {
+
 	}
 }
