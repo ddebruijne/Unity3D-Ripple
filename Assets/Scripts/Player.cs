@@ -10,10 +10,13 @@ using UnityEngine;
 
 public class Player : MonoBehaviour {
 
+	public float ButtonActivationRadius = 5;
+
 	void Start () {
-		
+		//Maybe this can be HP?
+		SetPlayerColor(Color.green);
 	}
-	
+
 	void Update () {
 		ControllerInput();
 	}
@@ -22,20 +25,31 @@ public class Player : MonoBehaviour {
 		FollowSprites();
 	}
 
+	//Shortens the color setting command.
+	void SetPlayerColor(Color col) { GetComponent<Renderer>().material.SetColor("_Color", col); }
+
 	//Checks for input from the player and takes appropriate action.
 	void ControllerInput() {
+
 		if ( Input.GetButtonDown("P1_Green") ) {
-			Debug.Log("HELLO IM P1_Green");
+			CheckIfNoteIsNear(NoteType.Green);
 		}
 		if ( Input.GetButtonDown("P1_Red") ) {
-			Debug.Log("HELLO IM P1_Red");
+			CheckIfNoteIsNear(NoteType.Red);
 		}
 		if ( Input.GetButtonDown("P1_Blue") ) {
-			Debug.Log("HELLO IM P1_Blue");
+			CheckIfNoteIsNear(NoteType.Blue);
 		}
 		if ( Input.GetButtonDown("P1_Yellow") ) {
-			Debug.Log("HELLO IM P1_Yellow");
+			CheckIfNoteIsNear(NoteType.Yellow);
 		}
+	}
+
+	void CheckIfNoteIsNear(NoteType Color) {
+		Debug.Log("Checking if note of " + Color.ToString() + " is near.");
+		//see if a gameobject of tag is closer than activation radius
+		//if the gameobject is close is of the correct color that was pressed.
+		//if both are true, call the Activate action on the note.
 	}
 
 	//The wave are individual sprites the player follows. This function places you on the next tile.
