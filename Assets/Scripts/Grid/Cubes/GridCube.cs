@@ -4,12 +4,12 @@ using UnityEngine;
 
 public class GridCube : MonoBehaviour {
 
-    public int playerCount = 2;
+    private int playerCount = 5;
 
     private Vector3 defaultPos;
     private Material material;
 
-    private List<float> raiseAmount = new List<float>();
+    public List<float> raiseAmount = new List<float>();
     private List<float> actualRaiseAmount = new List<float>();
 
     public List<Color> colors = new List<Color>();

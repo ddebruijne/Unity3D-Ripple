@@ -15,8 +15,14 @@ public class CubeGrid : MonoBehaviour {
     public int playerCount = 2;
     public List<Color> playerColors = new List<Color>();
 
+    public AnimationCurve coolCurve;
+
     void Awake() {
         Instance = this;
+    }
+
+    void Start() {
+        BuildLevelSequence();
     }
 
     void Update() {
@@ -34,12 +40,41 @@ public class CubeGrid : MonoBehaviour {
         }
     }
 
+    private void BuildLevelSequence() {
+        List<GridCube> cubestoLoad = new List<GridCube>(cubes);
+
+        Debug.Log("LUL");
+        foreach(GridCube c in cubestoLoad) {
+            StartCoroutine(AnimateCube(c));
+        }
+    }
+
+    private IEnumerator AnimateCube(GridCube cube) {
+        Vector3 originalScale = cube.transform.localScale;
+
+        cube.SetRaiseAmount(-100, 4);
+        cube.transform.localScale = Vector3.zero;
+
+        yield return new WaitForSeconds(Random.Range(0, 1f));
+
+        float value = -100;
+        float animationSpeed = Random.Range(0.05f, 0.1f);
+        while (value <= -0.01f) {
+            cube.SetRaiseAmount(value, 4);
+            value = Mathf.Lerp(value, 0, animationSpeed);
+            cube.transform.localScale = Vector3.Lerp(cube.transform.localScale, originalScale, animationSpeed);
+            yield return null;
+        }
+
+        cube.SetRaiseAmount(0, 4);
+    }
+
     [ContextMenu("Find Cubes")]
     private void FindCubes() {
         cubes = new List<GridCube>(gameObject.GetComponentsInChildren<GridCube>(true));
 
         foreach(GridCube c in cubes) {
-            c.playerCount = playerCount;
+            //c.playerCount = playerCount;
             c.colors = playerColors;
 
             c.SetToDefaultPosition();
