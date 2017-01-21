@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour {
 
-	int players = 1;
+	int players = 2;
 	public GameObject PlayerBallPrefab;
 
 	public List<Vector3> PlayerStartPositions;
