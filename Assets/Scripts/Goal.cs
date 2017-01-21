@@ -5,6 +5,7 @@ using UnityEngine;
 public class Goal : MonoBehaviour {
 
 	[ReadOnly] public PlayerBall player;
+    public GoalLight goalLight;
 
 	public void SetupGoal(PlayerBall _player) {
 		player = _player;
@@ -13,6 +14,8 @@ public class Goal : MonoBehaviour {
 	//Called when a ball collides with us.
 	public void OnScoreEvent() {
 		GameManager.instance.Score(player.playerIndex);
-	}
+        goalLight.FlashColor(CubeGrid.Instance.playerColors[player.playerIndex]);
+
+    }
 
 }

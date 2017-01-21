@@ -7,6 +7,8 @@ public class CubeGrid : MonoBehaviour {
     public static CubeGrid Instance;
 
     public List<GridCube> cubes = new List<GridCube>();
+    public List<GlassPulse> glasses = new List<GlassPulse>();
+
     public float raiseRange = 2.5f;
     public float maxRaiseHeight = 1;
 
@@ -42,5 +44,7 @@ public class CubeGrid : MonoBehaviour {
 
             c.SetToDefaultPosition();
         }
+
+        glasses = new List<GlassPulse>(gameObject.GetComponentsInChildren<GlassPulse>(true));
     }
 }
