@@ -36,6 +36,7 @@ public class GridCube : MonoBehaviour {
 
     public void SetToDefaultPosition() {
         transform.position = GetDefaultPosition();
+        transform.localScale = new Vector3(transform.localScale.x, 8, transform.localScale.z);
     }
 
     public Vector3 GetDefaultPosition() {
