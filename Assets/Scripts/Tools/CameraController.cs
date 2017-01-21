@@ -9,11 +9,11 @@ public class CameraController : MonoBehaviour {
     private Vector3 sPosition;
 
     void Start() {
-        sPosition = transform.position;
+        sPosition = transform.localPosition;
     }
 
 	void Update () {
-        transform.position = sPosition +
+        transform.localPosition = sPosition +
             new Vector3(
                 Random.Range(-camShake, camShake),
                 Random.Range(-camShake, camShake),
