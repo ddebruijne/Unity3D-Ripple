@@ -12,8 +12,13 @@ public class GameManager : MonoBehaviour {
 	public GameObject GoalPrefab;       //Standard orientation bottomleft.
 
 	[ReadOnly] public List<GameObject> PlayerObjects;
+
+	[Header("Goals")]
 	[ReadOnly] public List<GameObject> Goals;
 	public List<GameObject> ScoreText;
+	public List<GameObject> GoalSpawnPoints;
+	Vector3 GoalSpawnOffset = new Vector3(0, 0, 0);
+
 
 	void Start() {
 		instance = this;
@@ -35,7 +40,9 @@ public class GameManager : MonoBehaviour {
 
 	void CreateGoals() {
 		for ( int i = 0; i < PlayerObjects.Count; i++ ) {
-			GameObject go = Instantiate(GoalPrefab, Vector3.zero, Quaternion.identity);
+			Vector3 gopos = GoalSpawnPoints[i].transform.position + GoalSpawnOffset;
+
+			GameObject go = Instantiate(GoalPrefab, gopos, Quaternion.identity);
 			go.GetComponent<Goal>().SetupGoal(PlayerObjects[i].GetComponent<PlayerBall>());     //TODO: Set correct positions
 			go.name = "Player " + i + " Goal";
 
