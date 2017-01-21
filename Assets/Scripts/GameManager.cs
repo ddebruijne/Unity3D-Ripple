@@ -73,9 +73,9 @@ public class GameManager : MonoBehaviour {
 	//when a score event happens on the goal of the playerindex.
 	public void Score(int _PlayerIndex) {
 		for ( int i = 0; i < PlayerObjects.Count; i++ ) {
-			if ( i != _PlayerIndex ) ;
-			PlayerObjects[i].GetComponent<PlayerBall>().AddScore();
+			if ( i != _PlayerIndex ) PlayerObjects[i].GetComponent<PlayerBall>().AddScore();
 		}
+		UpdateScoreText();
 	}
 
 	public void UpdateScoreText() {
