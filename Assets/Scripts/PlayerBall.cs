@@ -49,13 +49,14 @@ public class PlayerBall : MonoBehaviour {
 	}
 
 	void ControllerInput() {
-        Vector3 moveDirection = new Vector3( XCI.GetAxis(XboxAxis.LeftStickX, MappedController), 0, XCI.GetAxis(XboxAxis.LeftStickY, MappedController));
+        Vector3 moveDirection = new Vector3( XCI.GetAxisRaw(XboxAxis.LeftStickX, MappedController), 0, XCI.GetAxisRaw(XboxAxis.LeftStickY, MappedController));
         moveDirection = cam.transform.TransformDirection(moveDirection);
 
         velocity += new Vector2(moveDirection.x, moveDirection.z) * 2;
         currentPos += velocity * Time.deltaTime;
 
-        CubeGrid.Instance.SetRaiseAmount(currentPos, XCI.GetAxis(XboxAxis.RightTrigger, MappedController), XCI.GetAxis(XboxAxis.RightTrigger, MappedController), goalColorOffset, playerIndex);
+        CubeGrid.Instance.SetRaiseAmount(currentPos, XCI.GetAxisRaw(XboxAxis.RightTrigger, MappedController), XCI.GetAxisRaw(XboxAxis.RightTrigger, MappedController) * 2f, goalColorOffset, playerIndex);
+
         if (GameManager.instance.Balls != null) {
             foreach (GameObject o in GameManager.instance.Balls) {
                 if (o == null) continue;
