@@ -10,7 +10,10 @@ public class GameManager : MonoBehaviour {
 	int players = 2;                    //Max 4.
 	public GameObject PlayerBallPrefab; //These are mostly empty but with scripts attached.
 	public GameObject GoalPrefab;       //Standard orientation bottomleft.
-	public List<GameObject> ScoreText;
+    public GameObject BallPrefab;
+    public Transform BallSpawnPos;
+
+    public List<GameObject> ScoreText;
 
 	[Header("Read Only Objects")]
 	[ReadOnly]	public List<GameObject> PlayerObjects;
@@ -20,6 +23,7 @@ public class GameManager : MonoBehaviour {
 		instance = this;
 		CreatePlayers();
 		SetupGoals();
+        StartCoroutine(SpawnBallRoutine());
 	}
 
 	void CreatePlayers() {
@@ -68,4 +72,17 @@ public class GameManager : MonoBehaviour {
 			ScoreText[i].GetComponent<Text>().text = PlayerObjects[i].GetComponent<PlayerBall>().score + "";
 		}
 	}
+
+    private IEnumerator SpawnBallRoutine() {
+
+        while (true) {
+            SpawnBall();
+            yield return new WaitForSeconds(1);
+        }
+    }
+
+    public void SpawnBall() {
+        GameObject b = Instantiate(BallPrefab);
+        b.transform.position = BallSpawnPos.position;
+    }
 }

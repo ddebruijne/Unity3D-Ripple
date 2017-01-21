@@ -27,14 +27,14 @@ public class CubeGrid : MonoBehaviour {
         foreach(GridCube cube in cubes) {
             float distance = raiseRange / Vector2.Distance(location, new Vector2(cube.transform.position.x, cube.transform.position.z));
             float clampedDistance = Mathf.Clamp01(distance);
-            float amount = clampedDistance * a * 3;
+            float amount = clampedDistance * a * 6;
             cube.SetRaiseAmount(amount, player);
         }
     }
 
     [ContextMenu("Find Cubes")]
     private void FindCubes() {
-        cubes = new List<GridCube>(gameObject.GetComponentsInChildren<GridCube>());
+        cubes = new List<GridCube>(gameObject.GetComponentsInChildren<GridCube>(true));
 
         foreach(GridCube c in cubes) {
             c.playerCount = playerCount;
