@@ -6,15 +6,20 @@ public class Goal : MonoBehaviour {
 
 	[ReadOnly] public PlayerBall player;
     public GoalLight goalLight;
+    public GridCube goalPost;
 
 	public void SetupGoal(PlayerBall _player) {
 		player = _player;
 	}
 
+    void Update() {
+        CubeGrid.Instance.SetRaiseAmount(new Vector2(goalPost.transform.position.x, goalPost.transform.position.z), Mathf.Sin(Time.time) + 1.5f, 1, 0, player.playerIndex + 6);
+    }
+
 	//Called when a ball collides with us.
 	public void OnScoreEvent() {
 		GameManager.instance.Score(player.playerIndex);
-        goalLight.FlashColor(CubeGrid.Instance.playerColors[player.playerIndex]);
+        goalLight.FlashColor(CubeGrid.Instance.playerColors[player.playerIndex], player.playerIndex);
 
     }
 

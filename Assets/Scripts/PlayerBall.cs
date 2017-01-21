@@ -13,6 +13,8 @@ public class PlayerBall : MonoBehaviour {
     public Vector2 currentPos = Vector2.zero;
     public Vector2 velocity = Vector2.zero;
 
+    public float goalColorOffset = 0;
+
     void Start() {
 
     }
@@ -26,12 +28,6 @@ public class PlayerBall : MonoBehaviour {
 				break;
 			case 1:
 				MappedController = XboxController.Second;
-				break;
-			case 2:
-				MappedController = XboxController.Third;
-				break;
-			case 3:
-				MappedController = XboxController.Fourth;
 				break;
 			default:
 				MappedController = XboxController.All;
@@ -56,7 +52,7 @@ public class PlayerBall : MonoBehaviour {
         velocity += new Vector2(moveDirection.x, moveDirection.z) * 2;
         currentPos += velocity * Time.deltaTime;
 
-        CubeGrid.Instance.SetRaiseAmount(currentPos, XCI.GetAxis(XboxAxis.RightTrigger, MappedController), playerIndex);
+        CubeGrid.Instance.SetRaiseAmount(currentPos, XCI.GetAxis(XboxAxis.RightTrigger, MappedController), XCI.GetAxis(XboxAxis.RightTrigger, MappedController), goalColorOffset, playerIndex);
         
         foreach(GameObject o in GameManager.instance.Balls) {
             if (o == null) continue;

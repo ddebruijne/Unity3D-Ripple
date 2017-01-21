@@ -7,7 +7,7 @@ public class GameManager : MonoBehaviour {
 
 	public static GameManager instance;
 
-	int players = 4;                    //Max 4.
+	int players = 2;                    //Max 4.
 	public GameObject PlayerBallPrefab; //These are mostly empty but with scripts attached.
 	public GameObject GoalPrefab;       //Standard orientation bottomleft.
     public GameObject BallPrefab;
@@ -18,17 +18,19 @@ public class GameManager : MonoBehaviour {
 	[Header("Read Only Objects")]
 	[ReadOnly]	public List<GameObject> PlayerObjects;
 	[ReadOnly]	public List<Goal> Goals;
-    [ReadOnly]	public List<GameObject> Balls = new List<GameObject>();
-	[ReadOnly]	public Animator CameraAnimator;
+    [ReadOnly]
+    public List<GameObject> Balls = new List<GameObject>();
 
 	void Start() {
 		instance = this;
 		CreatePlayers();
 		SetupGoals();
-		CameraAnimator = GetComponent<Animator>();
-		//CameraAnimator.Stop();
         StartCoroutine(SpawnBallRoutine());
 	}
+
+    void Update() {
+        CubeGrid.Instance.SetRaiseAmount(Vector2.zero, 0, 0, Mathf.Sin(Time.time) / 5, 5);
+    }
 
 	void CreatePlayers() {
 		for ( int i = 0; i < players; i++ ) {
@@ -97,6 +99,10 @@ public class GameManager : MonoBehaviour {
     public void SpawnBall() {
         GameObject b = Instantiate(BallPrefab);
         b.transform.position = BallSpawnPos.position;
+        b.GetComponent<Rigidbody>().AddForce(new Vector3(
+            Random.Range(-100, 100),
+            Random.Range(-100, 100),
+            Random.Range(-100, 100)), ForceMode.Acceleration);
 
         Balls.Add(b);
     }
