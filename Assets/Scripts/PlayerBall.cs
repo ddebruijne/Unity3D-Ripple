@@ -5,8 +5,9 @@ using XboxCtrlrInput;
 
 public class PlayerBall : MonoBehaviour {
 
-	[ReadOnly] public int playerIndex;
-	[ReadOnly] public XboxController MappedController;
+	[ReadOnly]	public int playerIndex;
+	[ReadOnly]	public XboxController MappedController;
+	[ReadOnly]	public int score;
 
 	public void SetupPlayer(int _playerIndex) {
 		playerIndex = _playerIndex;
@@ -22,6 +23,8 @@ public class PlayerBall : MonoBehaviour {
 				MappedController = XboxController.All;
 				break;
 		}
+
+		score = 0;
 	}
 
 	void Start () {
@@ -33,7 +36,11 @@ public class PlayerBall : MonoBehaviour {
 	}
 
 	void ControllerInput() {
-		Debug.Log("P" + playerIndex + ": " + XCI.GetAxis(XboxAxis.LeftStickX, MappedController));
+		//Debug.Log("P" + playerIndex + ": " + XCI.GetAxis(XboxAxis.LeftStickX, MappedController));
 		
 	}
+
+	public void AddScore(int ammount) { score += ammount; }
+
+	public void AddScore() { score++; }
 }
