@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using XboxCtrlrInput;
 
 public class GameManager : MonoBehaviour {
 
@@ -12,6 +13,7 @@ public class GameManager : MonoBehaviour {
 	public GameObject GoalPrefab;       //Standard orientation bottomleft.
     public GameObject BallPrefab;
     public Transform BallSpawnPos;
+	public GameObject Level;
 
     public List<GameObject> ScoreText;
 
@@ -20,14 +22,44 @@ public class GameManager : MonoBehaviour {
 	[ReadOnly]	public List<Goal> Goals;
     [ReadOnly]	public List<GameObject> Balls = new List<GameObject>();
 	[ReadOnly]	public Animator CameraAnimator;
+	[ReadOnly]	public bool GameStarted = false;
+
+	[Header("UI Elements")]
+	public GameObject HUD;
+	public GameObject Splash;
 
 	void Start() {
 		instance = this;
 		CreatePlayers();
 		SetupGoals();
 		CameraAnimator = GetComponent<Animator>();
-		//CameraAnimator.Stop();
-        StartCoroutine(SpawnBallRoutine());
+
+		//Pause it all.
+		CameraAnimator.speed = 0 ;
+		Splash.GetComponent<Animator>().speed = 0;
+		Level.SetActive(false);
+        
+	}
+
+	void Update() {
+		if(XCI.GetButtonDown(XboxButton.A, XboxController.First)  && !GameStarted) {
+			StartCoroutine(StartLevelSequence());
+			GameStarted = true;
+
+		}
+	}
+
+	IEnumerator StartLevelSequence() {
+		Splash.GetComponent<Animator>().speed = 1;
+
+		yield return new WaitForSeconds(1);
+		Splash.SetActive(false);
+		CameraAnimator.speed = 1;
+		Level.SetActive(true);
+
+		yield return new WaitForSeconds(2);
+		HUD.SetActive(true);
+		StartCoroutine(SpawnBallRoutine());
 	}
 
 	void CreatePlayers() {
