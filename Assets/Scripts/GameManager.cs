@@ -14,7 +14,7 @@ public class GameManager : MonoBehaviour {
     public GameObject BallPrefab;
     public Transform BallSpawnPos;
 	public GameObject Level;
-
+	public CameraRotate CameraPivotRotate;
     public List<GameObject> ScoreText;
 
 	[Header("Read Only Objects")]
@@ -45,7 +45,6 @@ public class GameManager : MonoBehaviour {
 		if(XCI.GetButtonDown(XboxButton.A, XboxController.First)  && !GameStarted) {
 			StartCoroutine(StartLevelSequence());
 			GameStarted = true;
-
 		}
 	}
 
@@ -60,6 +59,10 @@ public class GameManager : MonoBehaviour {
 		yield return new WaitForSeconds(2);
 		HUD.SetActive(true);
 		StartCoroutine(SpawnBallRoutine());
+
+		yield return new WaitForSeconds(1);
+		CameraPivotRotate.enabled = true;
+
 	}
 
 	void CreatePlayers() {
