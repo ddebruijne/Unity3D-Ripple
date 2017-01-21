@@ -27,6 +27,12 @@ public class PlayerBall : MonoBehaviour {
 			case 1:
 				MappedController = XboxController.Second;
 				break;
+			case 2:
+				MappedController = XboxController.Third;
+				break;
+			case 3:
+				MappedController = XboxController.Fourth;
+				break;
 			default:
 				MappedController = XboxController.All;
 				break;
