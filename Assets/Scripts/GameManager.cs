@@ -10,20 +10,16 @@ public class GameManager : MonoBehaviour {
 	int players = 2;                    //Max 4.
 	public GameObject PlayerBallPrefab; //These are mostly empty but with scripts attached.
 	public GameObject GoalPrefab;       //Standard orientation bottomleft.
-
-	[ReadOnly] public List<GameObject> PlayerObjects;
-
-	[Header("Goals")]
-	[ReadOnly] public List<GameObject> Goals;
 	public List<GameObject> ScoreText;
-	public List<GameObject> GoalSpawnPoints;
-	Vector3 GoalSpawnOffset = new Vector3(0, 0, 0);
 
+	[Header("Read Only Objects")]
+	[ReadOnly]	public List<GameObject> PlayerObjects;
+	[ReadOnly]	public List<Goal> Goals;
 
 	void Start() {
 		instance = this;
 		CreatePlayers();
-		CreateGoals();
+		SetupGoals();
 	}
 
 	void CreatePlayers() {
@@ -36,38 +32,27 @@ public class GameManager : MonoBehaviour {
 
 			PlayerObjects.Add(go);
 		}
+		UpdateScoreText();  //Call this in the last part of initialization.
+
 	}
 
-	void CreateGoals() {
-		for ( int i = 0; i < PlayerObjects.Count; i++ ) {
-			Vector3 gopos = GoalSpawnPoints[i].transform.position + GoalSpawnOffset;
+	void SetupGoals() {
+		for(int i = 0; i < 4; i++ ) {
+			GameObject GoalGO = GameObject.Find("Goal" + i);
+			GameObject UseGoal = GoalGO.transform.FindChild("UseGoal").gameObject;
+			GameObject NotUseGoal = GoalGO.transform.FindChild("NotUseGoal").gameObject;
 
-			GameObject go = Instantiate(GoalPrefab, gopos, Quaternion.identity);
-			go.GetComponent<Goal>().SetupGoal(PlayerObjects[i].GetComponent<PlayerBall>());     //TODO: Set correct positions
-			go.name = "Player " + i + " Goal";
+			UseGoal.SetActive(false);
+			NotUseGoal.SetActive(true);
 
-			//Rotate and positionate based on player.
-			switch ( i ) {
-				case 0:
-				go.transform.Rotate(Vector3.up, 180);   //Topleft
-				break;
-				case 1:
-				go.transform.Rotate(Vector3.up, 0f);    //Bottomright
-				break;
-				case 2:
-				go.transform.Rotate(Vector3.up, 90);    //Bottomleft
-				break;
-				case 3:
-				go.transform.Rotate(Vector3.up, 270);   //Topright
-				break;
-				default:
-				break;
+			if (i < players) {
+				UseGoal.SetActive(true);
+				NotUseGoal.SetActive(false);
+				GoalGO.GetComponentInChildren<Goal>().SetupGoal(PlayerObjects[i].GetComponent<PlayerBall>());
+				Goals.Add(GoalGO.GetComponentInChildren<Goal>());
+
 			}
-
-			Goals.Add(go);
 		}
-
-		UpdateScoreText();	//Call this in the last part of initialization.
 	}
 
 	//when a score event happens on the goal of the playerindex.

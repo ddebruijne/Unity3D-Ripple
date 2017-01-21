@@ -18,7 +18,7 @@ public class Ball : MonoBehaviour {
 		if(col.gameObject.tag == "Goal" ) {
 			Debug.Log("Ayy lmao this is a goal!");
 			col.gameObject.GetComponent<Goal>().OnScoreEvent();
-			StartCoroutine(DestroyAfterDelay());
+			Destroy(this.gameObject);
 		}
 	}
 

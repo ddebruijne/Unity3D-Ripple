@@ -41,6 +41,6 @@ public class PlayerBall : MonoBehaviour {
 	}
 
 	public void AddScore(int ammount) { score += ammount; }
-
+	
 	public void AddScore() { score++; }
 }
