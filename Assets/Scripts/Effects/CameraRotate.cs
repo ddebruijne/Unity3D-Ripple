@@ -4,13 +4,16 @@ using UnityEngine;
 
 public class CameraRotate : MonoBehaviour {
 
-	// Use this for initialization
+    public float camDistance = 10;
+    private Camera cam;
+
 	void Start () {
-		
+        cam = GetComponentInChildren<Camera>();
 	}
-	
-	// Update is called once per frame
+
+
 	void Update () {
         transform.Rotate(new Vector3(0, 10 * Time.deltaTime, 0), Space.World);
-	}
+        cam.transform.LookAt(transform);
+    }
 }

@@ -12,8 +12,8 @@ public class CubeGrid : MonoBehaviour {
     public List<Color> playerColors = new List<Color>();
 
     void Update() {
-        SetRaiseAmount(new Vector2(Mathf.Sin(Time.time) * 4, 0), 2, 0);
-        SetRaiseAmount(new Vector2(0, Mathf.Sin(Time.time) * 4), 2, 1);
+        SetRaiseAmount(new Vector2(Mathf.Sin(Time.time / 2) * 10, Mathf.PerlinNoise(Time.time, Time.time) + Mathf.Sin(Time.time / 4) * 5) - new Vector2(5,5), 2, 0);
+        SetRaiseAmount(new Vector2(Mathf.PerlinNoise(Time.time, Time.time) + Mathf.Sin(Time.time / 5) * 10, Mathf.Sin(Time.time / 2) * 10) - new Vector2(5, 5), 2, 1);
     }
 
     public void SetRaiseAmount(Vector2 location, float a, int player) {
@@ -32,6 +32,8 @@ public class CubeGrid : MonoBehaviour {
         foreach(GridCube c in cubes) {
             c.playerCount = playerCount;
             c.colors = playerColors;
+
+            c.SetToDefaultPosition();
         }
     }
 }

@@ -15,6 +15,9 @@ public class GridCube : MonoBehaviour {
     public List<Color> colors = new List<Color>();
     private List<Color> actualColors = new List<Color>();
 
+    public float heightOffset = 0;
+    public bool isMoveable = true;
+
     void Awake() {
         material = GetComponent<MeshRenderer>().material;
 
@@ -26,7 +29,15 @@ public class GridCube : MonoBehaviour {
     }
 
     void Start() {
-        defaultPos = new Vector3(transform.position.x, -4, transform.position.z);
+        defaultPos = GetDefaultPosition();
+    }
+
+    public void SetToDefaultPosition() {
+        transform.position = GetDefaultPosition();
+    }
+
+    public Vector3 GetDefaultPosition() {
+        return new Vector3(transform.position.x, -4 + heightOffset, transform.position.z);
     }
 
     public void SetRaiseAmount(float a, int player) {
@@ -44,7 +55,7 @@ public class GridCube : MonoBehaviour {
             c += (colors[i] * actualRaiseAmount[i]);
         }
 
-        transform.position = defaultPos + new Vector3(0, raise, 0);
+        if(isMoveable) transform.position = defaultPos + new Vector3(0, raise, 0);
         material.SetColor("_Color", c);
 
     }
