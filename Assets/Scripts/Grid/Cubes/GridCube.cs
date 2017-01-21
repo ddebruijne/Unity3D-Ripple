@@ -50,9 +50,9 @@ public class GridCube : MonoBehaviour {
 
         for(int i = 0; i < playerCount; i++) {
             actualRaiseAmount[i] = Mathf.Lerp(actualRaiseAmount[i], raiseAmount[i], 0.25f);
-            raise += actualRaiseAmount[i];
+            raise += (actualRaiseAmount[i]);
 
-            c += (colors[i] * actualRaiseAmount[i]);
+            c += (colors[i] * actualRaiseAmount[i] * 0.5f);
         }
 
         if(isMoveable) transform.position = defaultPos + new Vector3(0, raise, 0);

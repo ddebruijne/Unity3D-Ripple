@@ -56,7 +56,7 @@ public class PlayerBall : MonoBehaviour {
         velocity += new Vector2(moveDirection.x, moveDirection.z) * 2;
         currentPos += velocity * Time.deltaTime;
 
-        CubeGrid.Instance.SetRaiseAmount(currentPos, XCI.GetAxis(XboxAxis.RightTrigger, MappedController) + 0.1f, playerIndex);
+        CubeGrid.Instance.SetRaiseAmount(currentPos, XCI.GetAxis(XboxAxis.RightTrigger, MappedController), playerIndex);
         
         foreach(GameObject o in GameManager.instance.Balls) {
             if (o == null) continue;
