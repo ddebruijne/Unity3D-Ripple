@@ -1,0 +1,364 @@
+fileFormatVersion: 2
+guid: 57e263d2c483404428c14aa2f13eef44
+timeCreated: 1485026401
+licenseType: Pro
+TextureImporter:
+  fileIDToRecycleName:
+    21300000: sprite_title_0
+    21300002: sprite_title_1
+    21300004: sprite_title_2
+    21300006: sprite_title_3
+    21300008: sprite_title_4
+    21300010: sprite_title_5
+    21300012: sprite_title_6
+    21300014: sprite_title_7
+    21300016: sprite_title_8
+    21300018: sprite_title_9
+    21300020: sprite_title_10
+    21300022: sprite_title_11
+    21300024: sprite_title_12
+    21300026: sprite_title_13
+    21300028: sprite_title_14
+    21300030: sprite_title_15
+    21300032: sprite_title_16
+    21300034: sprite_title_17
+    21300036: sprite_title_18
+    21300038: sprite_title_19
+  serializedVersion: 4
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    filterMode: -1
+    aniso: -1
+    mipBias: -1
+    wrapMode: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spritePixelsToUnits: 100
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  platformSettings:
+  - buildTarget: DefaultTexturePlatform
+    maxTextureSize: 4096
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+  - buildTarget: Standalone
+    maxTextureSize: 4096
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+  - buildTarget: Android
+    maxTextureSize: 4096
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: sprite_title_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 2580
+        width: 883
+        height: 645
+      alignment: 4
+      pivot: {x: 0, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: sprite_title_1
+      rect:
+        serializedVersion: 2
+        x: 883
+        y: 2580
+        width: 883
+        height: 645
+      alignment: 4
+      pivot: {x: 0, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: sprite_title_2
+      rect:
+        serializedVersion: 2
+        x: 1766
+        y: 2580
+        width: 883
+        height: 645
+      alignment: 4
+      pivot: {x: 0, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: sprite_title_3
+      rect:
+        serializedVersion: 2
+        x: 2649
+        y: 2580
+        width: 883
+        height: 645
+      alignment: 4
+      pivot: {x: 0, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: sprite_title_4
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 1935
+        width: 883
+        height: 645
+      alignment: 4
+      pivot: {x: 0, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: sprite_title_5
+      rect:
+        serializedVersion: 2
+        x: 883
+        y: 1935
+        width: 883
+        height: 645
+      alignment: 4
+      pivot: {x: 0, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: sprite_title_6
+      rect:
+        serializedVersion: 2
+        x: 1766
+        y: 1935
+        width: 883
+        height: 645
+      alignment: 4
+      pivot: {x: 0, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: sprite_title_7
+      rect:
+        serializedVersion: 2
+        x: 2649
+        y: 1935
+        width: 883
+        height: 645
+      alignment: 4
+      pivot: {x: 0, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: sprite_title_8
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 1290
+        width: 883
+        height: 645
+      alignment: 4
+      pivot: {x: 0, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: sprite_title_9
+      rect:
+        serializedVersion: 2
+        x: 883
+        y: 1290
+        width: 883
+        height: 645
+      alignment: 4
+      pivot: {x: 0, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: sprite_title_10
+      rect:
+        serializedVersion: 2
+        x: 1766
+        y: 1290
+        width: 883
+        height: 645
+      alignment: 4
+      pivot: {x: 0, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: sprite_title_11
+      rect:
+        serializedVersion: 2
+        x: 2649
+        y: 1290
+        width: 883
+        height: 645
+      alignment: 4
+      pivot: {x: 0, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: sprite_title_12
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 645
+        width: 883
+        height: 645
+      alignment: 4
+      pivot: {x: 0, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: sprite_title_13
+      rect:
+        serializedVersion: 2
+        x: 883
+        y: 645
+        width: 883
+        height: 645
+      alignment: 4
+      pivot: {x: 0, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: sprite_title_14
+      rect:
+        serializedVersion: 2
+        x: 1766
+        y: 645
+        width: 883
+        height: 645
+      alignment: 4
+      pivot: {x: 0, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: sprite_title_15
+      rect:
+        serializedVersion: 2
+        x: 2649
+        y: 645
+        width: 883
+        height: 645
+      alignment: 4
+      pivot: {x: 0, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: sprite_title_16
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 883
+        height: 645
+      alignment: 4
+      pivot: {x: 0, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: sprite_title_17
+      rect:
+        serializedVersion: 2
+        x: 883
+        y: 0
+        width: 883
+        height: 645
+      alignment: 4
+      pivot: {x: 0, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: sprite_title_18
+      rect:
+        serializedVersion: 2
+        x: 1766
+        y: 0
+        width: 883
+        height: 645
+      alignment: 4
+      pivot: {x: 0, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: sprite_title_19
+      rect:
+        serializedVersion: 2
+        x: 2649
+        y: 0
+        width: 883
+        height: 645
+      alignment: 4
+      pivot: {x: 0, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    outline: []
+  spritePackingTag: 
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
