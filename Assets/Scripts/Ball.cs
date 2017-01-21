@@ -24,6 +24,7 @@ public class Ball : MonoBehaviour {
 
 	IEnumerator DestroyAfterDelay() {
 		yield return new WaitForSeconds(0.5f);
+        GameManager.instance.Balls.Remove(gameObject);
 		Destroy(this.gameObject);
 	}
 }

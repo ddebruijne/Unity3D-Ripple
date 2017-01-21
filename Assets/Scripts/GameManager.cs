@@ -18,6 +18,8 @@ public class GameManager : MonoBehaviour {
 	[Header("Read Only Objects")]
 	[ReadOnly]	public List<GameObject> PlayerObjects;
 	[ReadOnly]	public List<Goal> Goals;
+    [ReadOnly]
+    public List<GameObject> Balls = new List<GameObject>();
 
 	void Start() {
 		instance = this;
@@ -77,12 +79,14 @@ public class GameManager : MonoBehaviour {
 
         while (true) {
             SpawnBall();
-            yield return new WaitForSeconds(1);
+            yield return new WaitForSeconds(2);
         }
     }
 
     public void SpawnBall() {
         GameObject b = Instantiate(BallPrefab);
         b.transform.position = BallSpawnPos.position;
+
+        Balls.Add(b);
     }
 }

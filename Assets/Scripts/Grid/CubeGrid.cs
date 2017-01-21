@@ -27,7 +27,7 @@ public class CubeGrid : MonoBehaviour {
         foreach(GridCube cube in cubes) {
             float distance = raiseRange / Vector2.Distance(location, new Vector2(cube.transform.position.x, cube.transform.position.z));
             float clampedDistance = Mathf.Clamp01(distance);
-            float amount = clampedDistance * a * 6;
+            float amount = (clampedDistance * a * 6) + (a >= 0.8f ? + 0.5f : 0);
             cube.SetRaiseAmount(amount, player);
         }
     }
