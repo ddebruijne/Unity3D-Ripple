@@ -38,7 +38,7 @@ public class CubeGrid : MonoBehaviour {
             float distance = raiseRange / Vector2.Distance(location, new Vector2(cube.transform.position.x, cube.transform.position.z));
             float clampedDistance = Mathf.Clamp01(distance);
             float amount = (clampedDistance * height * 2.5f) - 0.1f;
-            cube.SetRaiseAmount(amount + (overallColor / 5), (color * (amount - 0.5f) + (clampedDistance)) + overallColor, player);
+            cube.SetRaiseAmount(amount + (overallColor / 5), (color * (amount - 0.25f) + (clampedDistance * 2)) + overallColor, player);
         }
     }
 
