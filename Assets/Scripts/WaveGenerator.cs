@@ -47,7 +47,7 @@ public class WaveGenerator : MonoBehaviour {
         vertRows = (segments + 1);
         waveSpeed = screenWidth / vertRows;
 
-        playerRow = (int)(vertRows * 0.2f);
+        playerRow = (int)(vertRows * 0.325f);
 
         CreateMesh();
     }
