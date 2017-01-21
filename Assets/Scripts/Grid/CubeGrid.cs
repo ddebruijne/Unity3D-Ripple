@@ -41,7 +41,7 @@ public class CubeGrid : MonoBehaviour {
         }
     }
 
-    private void BuildLevelSequence() {
+    public void BuildLevelSequence() {
         List<GridCube> cubestoLoad = new List<GridCube>(cubes);
 
         Debug.Log("LUL");
