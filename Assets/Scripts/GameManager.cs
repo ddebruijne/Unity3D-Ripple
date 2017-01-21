@@ -31,7 +31,6 @@ public class GameManager : MonoBehaviour {
 		instance = this;
 		CreatePlayers();
 		SetupGoals();
-        StartCoroutine(SpawnBallRoutine());
 		CameraAnimator = GetComponent<Animator>();
 
 		//Pause it all.
