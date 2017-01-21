@@ -5,17 +5,21 @@ using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour {
 
-	[ReadOnly] public int score;
-	public Text ScoreText;
+	int players = 1;
+	public GameObject PlayerBallPrefab;
+
+	public List<Vector3> PlayerStartPositions;
+	public List<GameObject> PlayerObjects;
 
 
-	public void AddScore(int i) {
-		score += i;
-		ScoreText.text = "Score: " + score;
-	}
 
-	public void AddScore() {
-		score++;
-		ScoreText.text = "Score: " + score;
+	void Start() {
+		for(int i = 0; i < players; i++ ) {
+			if ( i >= PlayerStartPositions.Count ) break;	//Safety measure
+			GameObject go = Instantiate(PlayerBallPrefab, PlayerStartPositions[i], Quaternion.identity);
+			go.GetComponent<PlayerBall>().SetupPlayer(i);
+			PlayerObjects.Add(go);
+
+		}
 	}
 }

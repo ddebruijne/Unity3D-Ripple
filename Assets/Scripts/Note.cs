@@ -25,10 +25,12 @@ public class Note : MonoBehaviour {
 	void Start () {
 		//TEMP DEFAULT NOTETYPE:	DELETE WHEN LINE SPAWNER IS READY
 		SetNoteType(NoteType.Green);
+
+		transform.position = WaveGenerator.Instance.GetCurrentPoint();
 	}
 	
 	void Update () {
-		if ( move )  transform.position = new Vector3(transform.position.x - 0.1f, transform.position.y, 0);
+		if ( move )  transform.position = new Vector3(transform.position.x - WaveGenerator.Instance.waveSpeed, transform.position.y, 0);
 	}
 
     [ContextMenu("Set to wave")]
@@ -56,6 +58,7 @@ public class Note : MonoBehaviour {
 			break;
 		
 		}
+		move = true;
 	}
 
 	//action to take when the correct button is pressed in the correct radius
@@ -64,7 +67,6 @@ public class Note : MonoBehaviour {
 			Debug.Log("A note activated!!");
 			move = false;
 			activated = true;
-			Camera.main.GetComponent<GameManager>().AddScore();
 		}
 	}
 }
