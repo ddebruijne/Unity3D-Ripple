@@ -30,14 +30,15 @@ public class CubeGrid : MonoBehaviour {
         //SetRaiseAmount(new Vector2(Mathf.PerlinNoise(Time.time, Time.time) + Mathf.Sin(Time.time / 5) * 10, Mathf.Sin(Time.time / 2) * 10) - new Vector2(5, 5), 1, 1);
     }
 
-    public void SetRaiseAmount(Vector2 location, float a, int player) {
-        a = Mathf.Clamp01(a);
+    public void SetRaiseAmount(Vector2 location, float height, float color, float overallColor, int player) {
+        overallColor *= 2.5f;
+        height = Mathf.Clamp01(height);
+        color = Mathf.Clamp01(color);
         foreach(GridCube cube in cubes) {
             float distance = raiseRange / Vector2.Distance(location, new Vector2(cube.transform.position.x, cube.transform.position.z));
             float clampedDistance = Mathf.Clamp01(distance);
-            float amount = (clampedDistance * a * 6) - 0.1f;
-                //+ (a >= 0.8f ? + 0.5f : 0);
-            cube.SetRaiseAmount(amount, player);
+            float amount = (clampedDistance * height * 2.5f) - 0.1f;
+            cube.SetRaiseAmount(amount + (overallColor / 5), (color * (amount - 0.5f) + (clampedDistance)) + overallColor, player);
         }
     }
 
@@ -53,7 +54,7 @@ public class CubeGrid : MonoBehaviour {
     private IEnumerator AnimateCube(GridCube cube) {
         Vector3 originalScale = cube.transform.localScale;
 
-        cube.SetRaiseAmount(-100, 4);
+        cube.SetRaiseAmount(-100, 1, 4);
         cube.transform.localScale = Vector3.zero;
 
         yield return new WaitForSeconds(Random.Range(0, 1f));
@@ -61,13 +62,13 @@ public class CubeGrid : MonoBehaviour {
         float value = -100;
         float animationSpeed = Random.Range(0.05f, 0.1f);
         while (value <= -0.01f) {
-            cube.SetRaiseAmount(value, 4);
+            cube.SetRaiseAmount(value, value, 4);
             value = Mathf.Lerp(value, 0, animationSpeed);
             cube.transform.localScale = Vector3.Lerp(cube.transform.localScale, originalScale, animationSpeed);
             yield return null;
         }
 
-        cube.SetRaiseAmount(0, 4);
+        cube.SetRaiseAmount(0, 0, 4);
     }
 
     [ContextMenu("Find Cubes")]

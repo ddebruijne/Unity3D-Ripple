@@ -8,7 +8,7 @@ public class GameManager : MonoBehaviour {
 
 	public static GameManager instance;
 
-	int players = 4;                    //Max 4.
+	int players = 2;                    //Max 4.
 	public GameObject PlayerBallPrefab; //These are mostly empty but with scripts attached.
 	public GameObject GoalPrefab;       //Standard orientation bottomleft.
     public GameObject BallPrefab;
@@ -27,11 +27,11 @@ public class GameManager : MonoBehaviour {
 	[Header("UI Elements")]
 	public GameObject HUD;
 	public GameObject Splash;
-
 	void Start() {
 		instance = this;
 		CreatePlayers();
 		SetupGoals();
+        StartCoroutine(SpawnBallRoutine());
 		CameraAnimator = GetComponent<Animator>();
 
 		//Pause it all.
@@ -46,7 +46,9 @@ public class GameManager : MonoBehaviour {
 			StartCoroutine(StartLevelSequence());
 			GameStarted = true;
 		}
-	}
+
+        CubeGrid.Instance.SetRaiseAmount(Vector2.zero, 0, 0, Mathf.Sin(Time.time) / 5, 5);
+    }
 
 	IEnumerator StartLevelSequence() {
 		Splash.GetComponent<Animator>().speed = 1;
@@ -62,7 +64,6 @@ public class GameManager : MonoBehaviour {
 
 		yield return new WaitForSeconds(1);
 		CameraPivotRotate.enabled = true;
-
 	}
 
 	void CreatePlayers() {
@@ -132,6 +133,10 @@ public class GameManager : MonoBehaviour {
     public void SpawnBall() {
         GameObject b = Instantiate(BallPrefab);
         b.transform.position = BallSpawnPos.position;
+        b.GetComponent<Rigidbody>().AddForce(new Vector3(
+            Random.Range(-100, 100),
+            Random.Range(-100, 100),
+            Random.Range(-100, 100)), ForceMode.Acceleration);
 
         Balls.Add(b);
     }

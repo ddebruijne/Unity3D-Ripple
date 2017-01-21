@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class GridCube : MonoBehaviour {
 
-    private int playerCount = 5;
+    private int playerCount = 9;
 
     private Vector3 defaultPos;
     private Material material;
@@ -12,6 +12,7 @@ public class GridCube : MonoBehaviour {
     public List<float> raiseAmount = new List<float>();
     private List<float> actualRaiseAmount = new List<float>();
 
+    private List<float> colorAmount = new List<float>();
     public List<Color> colors = new List<Color>();
     private List<Color> actualColors = new List<Color>();
 
@@ -25,6 +26,7 @@ public class GridCube : MonoBehaviour {
             raiseAmount.Add(0);
             actualRaiseAmount.Add(0);
             actualColors.Add(Color.black);
+            colorAmount.Add(0);
         }
     }
 
@@ -40,8 +42,9 @@ public class GridCube : MonoBehaviour {
         return new Vector3(transform.position.x, -4 + heightOffset, transform.position.z);
     }
 
-    public void SetRaiseAmount(float a, int player) {
-        raiseAmount[player] = a;
+    public void SetRaiseAmount(float height, float color, int player) {
+        raiseAmount[player] = height * 1.5f;
+        colorAmount[player] = color;
     }
 
 	void Update () {
@@ -52,7 +55,7 @@ public class GridCube : MonoBehaviour {
             actualRaiseAmount[i] = Mathf.Lerp(actualRaiseAmount[i], raiseAmount[i], 0.25f);
             raise += (actualRaiseAmount[i]);
 
-            c += (colors[i] * actualRaiseAmount[i] * 0.5f);
+            c += (colors[i] * colorAmount[i] * 0.5f);
         }
 
         if(isMoveable) transform.position = defaultPos + new Vector3(0, raise, 0);
