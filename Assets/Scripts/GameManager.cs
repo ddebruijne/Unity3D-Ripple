@@ -18,13 +18,15 @@ public class GameManager : MonoBehaviour {
 	[Header("Read Only Objects")]
 	[ReadOnly]	public List<GameObject> PlayerObjects;
 	[ReadOnly]	public List<Goal> Goals;
-    [ReadOnly]
-    public List<GameObject> Balls = new List<GameObject>();
+    [ReadOnly]	public List<GameObject> Balls = new List<GameObject>();
+	[ReadOnly]	public Animator CameraAnimator;
 
 	void Start() {
 		instance = this;
 		CreatePlayers();
 		SetupGoals();
+		CameraAnimator = GetComponent<Animator>();
+		//CameraAnimator.Stop();
         StartCoroutine(SpawnBallRoutine());
 	}
 
