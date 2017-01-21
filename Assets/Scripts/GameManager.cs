@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using XboxCtrlrInput;
 
 public class GameManager : MonoBehaviour {
 
@@ -12,25 +13,58 @@ public class GameManager : MonoBehaviour {
 	public GameObject GoalPrefab;       //Standard orientation bottomleft.
     public GameObject BallPrefab;
     public Transform BallSpawnPos;
-
+	public GameObject Level;
+	public CameraRotate CameraPivotRotate;
     public List<GameObject> ScoreText;
 
 	[Header("Read Only Objects")]
 	[ReadOnly]	public List<GameObject> PlayerObjects;
 	[ReadOnly]	public List<Goal> Goals;
-    [ReadOnly]
-    public List<GameObject> Balls = new List<GameObject>();
+    [ReadOnly]	public List<GameObject> Balls = new List<GameObject>();
+	[ReadOnly]	public Animator CameraAnimator;
+	[ReadOnly]	public bool GameStarted = false;
 
+	[Header("UI Elements")]
+	public GameObject HUD;
+	public GameObject Splash;
 	void Start() {
 		instance = this;
 		CreatePlayers();
 		SetupGoals();
         StartCoroutine(SpawnBallRoutine());
+		CameraAnimator = GetComponent<Animator>();
+
+		//Pause it all.
+		CameraAnimator.speed = 0 ;
+		Splash.GetComponent<Animator>().speed = 0;
+		Level.SetActive(false);
+        
 	}
 
-    void Update() {
+	void Update() {
+		if(XCI.GetButtonDown(XboxButton.A, XboxController.First)  && !GameStarted) {
+			StartCoroutine(StartLevelSequence());
+			GameStarted = true;
+		}
+
         CubeGrid.Instance.SetRaiseAmount(Vector2.zero, 0, 0, Mathf.Sin(Time.time) / 5, 5);
     }
+
+	IEnumerator StartLevelSequence() {
+		Splash.GetComponent<Animator>().speed = 1;
+
+		yield return new WaitForSeconds(1);
+		Splash.SetActive(false);
+		CameraAnimator.speed = 1;
+		Level.SetActive(true);
+
+		yield return new WaitForSeconds(2);
+		HUD.SetActive(true);
+		StartCoroutine(SpawnBallRoutine());
+
+		yield return new WaitForSeconds(1);
+		CameraPivotRotate.enabled = true;
+	}
 
 	void CreatePlayers() {
 		for ( int i = 0; i < players; i++ ) {
