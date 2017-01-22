@@ -9,8 +9,7 @@ public class GameManager : MonoBehaviour {
 	public static GameManager instance;
 
 	int players = 4;                    //Max 4.
-	public GameObject PlayerBallPrefab; //These are mostly empty but with scripts attached.
-	public GameObject GoalPrefab;       //Standard orientation bottomleft.
+	public GameObject PlayerPrefab; //These are mostly empty but with scripts attached.
     public GameObject BallPrefab;
     public Transform BallSpawnPos;
 	public GameObject Level;
@@ -64,7 +63,7 @@ public class GameManager : MonoBehaviour {
 	void CreatePlayers() {
 		for ( int i = 0; i < players; i++ ) {
 			if ( i > 3 ) break;
-			GameObject go = Instantiate(PlayerBallPrefab, Vector3.zero, Quaternion.identity);
+			GameObject go = Instantiate(PlayerPrefab, Vector3.zero, Quaternion.identity);
 			go.GetComponent<PlayerBall>().SetupPlayer(i);
 			go.name = "Player " + i;
 			ScoreText[i].SetActive(true);
@@ -102,6 +101,7 @@ public class GameManager : MonoBehaviour {
 	}
 
 	public void Ready(int _playerindex) {
+		Debug.Log("P" + _playerindex + " Ready!");
 		XInputDotNetPure.GamePad.SetVibration(PlayerObjects[_playerindex].GetComponent<PlayerBall>().MappedControllerXinput, 100, 100);
 		PlayerObjects[_playerindex].GetComponent<PlayerBall>().playerStatus = PlayerStatus.Ready;
 		PlayerObjects[_playerindex].GetComponent<PlayerBall>().Player3DText.GetComponent<TextMesh>().text = "READY";
@@ -109,25 +109,44 @@ public class GameManager : MonoBehaviour {
 		AreTwoReady();
 	}
 
-	public IEnumerator PlayerReadySequence(int _playerIndex) {
+	IEnumerator PlayerReadySequence(int _playerIndex) {
 		yield return new WaitForSeconds(1);
 		XInputDotNetPure.GamePad.SetVibration(PlayerObjects[_playerIndex].GetComponent<PlayerBall>().MappedControllerXinput, 0, 0);
 	}
 
 	public void GameStartCall() {
-		//TODO: foreach player set playerstatus game
-
-		//TODO: foreach player set 3D text inactive.
 		StartCoroutine(StartGameSequence());
 	}
 
+	List<GameObject> toRemove = new List<GameObject>();
+
 	IEnumerator StartGameSequence() {
+		//Fade out 3D Text, and remove players+goals we don't need.
 		for ( int i = 0; i < 4; i++ ) {
 			GameObject GoalGO = GameObject.Find("Goal" + i);
+			GameObject UseGoal = GoalGO.transform.FindChild("UseGoal").gameObject;
+			GameObject NotUseGoal = GoalGO.transform.FindChild("NotUseGoal").gameObject;
 			GameObject Text3D = GoalGO.transform.FindChild("Player3DText").gameObject;
 			Text3D.GetComponent<Animator>().speed = 1;
-			PlayerObjects[i].GetComponent<PlayerBall>().playerStatus = PlayerStatus.Game;
+
+			if( PlayerObjects[i].GetComponent<PlayerBall>().playerStatus != PlayerStatus.Ready ) {
+				UseGoal.SetActive(false);
+				NotUseGoal.SetActive(true);
+				ScoreText[i].SetActive(false);
+				toRemove.Add(PlayerObjects[i]);
+			} else {
+				PlayerObjects[i].GetComponent<PlayerBall>().playerStatus = PlayerStatus.Game;
+
+			}
 		}
+
+		foreach(GameObject go in toRemove ) {
+			players--;
+			PlayerObjects.Remove(go);
+			Destroy(go);
+		}
+
+		//Enable HUD and spawn the balls
 		yield return new WaitForSeconds(1);
 		HUD.SetActive(true);
 		StartCoroutine(SpawnBallRoutine());
@@ -143,7 +162,7 @@ public class GameManager : MonoBehaviour {
 		} else {
 			if( PlayerObjects[0].GetComponent<PlayerBall>().playerStatus == PlayerStatus.Ready ) {
 				PlayerObjects[0].GetComponent<PlayerBall>().Player3DText.GetComponent<TextMesh>().text = "READY";
-
+				
 			} else if ( PlayerObjects[0].GetComponent<PlayerBall>().playerStatus == PlayerStatus.Lobby ) {
 				PlayerObjects[0].GetComponent<PlayerBall>().Player3DText.GetComponent<TextMesh>().text = "P1 R2";
 			}
