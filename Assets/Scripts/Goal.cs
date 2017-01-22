@@ -7,9 +7,11 @@ public class Goal : MonoBehaviour {
 	[ReadOnly] public PlayerBall player;
     public GoalLight goalLight;
     public GridCube goalPost;
+	public Color gridColor;
 
 	public void SetupGoal(PlayerBall _player) {
 		player = _player;
+		gridColor = CubeGrid.Instance.playerColors[player.playerIndex];
 	}
 
     void Update() {
