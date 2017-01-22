@@ -28,7 +28,7 @@ public class Ball : MonoBehaviour {
             return;
 		}
 
-        if(col.impulse.magnitude >= 125f) {
+        if(col.impulse.magnitude >= 110f) {
             SoundManager.Instance.PlaySFX(SFX.BallBoop);
         }
 	}
