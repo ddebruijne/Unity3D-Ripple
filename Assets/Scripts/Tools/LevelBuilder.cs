@@ -32,7 +32,7 @@ public class LevelBuilder : MonoBehaviour {
     }
 
     public void GoToPhase(int phase, int waitTime) {
-        if(phase >= GameManager.instance.Goals.Count + 1) {
+        if(phase == 3) {
             Hide(GetCubes(phaseObjects[currentPhase]), currentPhase);
             GameManager.instance.GameDoneCall();
             return;

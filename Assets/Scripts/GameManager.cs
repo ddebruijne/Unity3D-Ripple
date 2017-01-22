@@ -233,7 +233,7 @@ public class GameManager : MonoBehaviour {
 
         yield return new WaitForSeconds(2);
         while (true) {
-            if (currentWave <= 4) {
+            if (currentWave < 4) {
                 for (int i = 0; i < (currentWave + 1) * 5; i++) {
                     SpawnBall();
                     yield return new WaitForSeconds(0.1f);

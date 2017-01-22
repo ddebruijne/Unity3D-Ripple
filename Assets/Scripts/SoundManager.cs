@@ -48,7 +48,7 @@ public class SoundManager : MonoBehaviour {
                 break;
 
             case SFX.BallBoop:
-                AudioSource_SFX.PlayOneShot(ballBoop);
+                AudioSource_SFX.PlayOneShot(ballBoop, 0.5f);
                 break;
 
 			default:
