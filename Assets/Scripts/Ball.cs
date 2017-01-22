@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class Ball : MonoBehaviour {
 
+    private bool hasScored = false;
+
 	// Use this for initialization
 	void Start () {
 		
@@ -17,11 +19,18 @@ public class Ball : MonoBehaviour {
 	}
 
 	void OnCollisionEnter (Collision col) {
-		if(col.gameObject.tag == "Goal" ) {
+		if(col.gameObject.tag == "Goal" && !hasScored) {
 			Debug.Log("Ayy lmao this is a goal!");
             col.gameObject.GetComponent<Goal>().OnScoreEvent();
+            hasScored = true;
             DestroyBall();
+
+            return;
 		}
+
+        if(col.impulse.magnitude >= 125f) {
+            SoundManager.Instance.PlaySFX(SFX.BallBoop);
+        }
 	}
 
 	void DestroyBall() {

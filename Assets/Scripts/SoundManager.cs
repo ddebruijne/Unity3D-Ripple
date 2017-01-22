@@ -4,7 +4,8 @@ using UnityEngine;
 
 public enum SFX {
 	Goal,
-	MenuConfirm
+	MenuConfirm,
+    BallBoop
 }
 
 public class SoundManager : MonoBehaviour {
@@ -15,6 +16,7 @@ public class SoundManager : MonoBehaviour {
 	public AudioClip[] BGM;
 	public AudioClip goal;
 	public AudioClip menuConfirm;
+    public AudioClip ballBoop;
 
 	[Header("Audio Sources")]
 	public AudioSource AudioSource_BGM;
@@ -37,14 +39,18 @@ public class SoundManager : MonoBehaviour {
 	}
 
 	public void PlaySFX(SFX SFXToPlay) {
-		AudioSource_SFX.Stop();
 		switch ( SFXToPlay ) {
 			case SFX.Goal:
-				if ( AudioSource_SFX.clip != goal ) AudioSource_SFX.clip = goal;
+                AudioSource_SFX.PlayOneShot(goal);
 				break;
 			case SFX.MenuConfirm:
-				if ( AudioSource_SFX.clip != menuConfirm ) AudioSource_SFX.clip = menuConfirm;
-				break;
+                AudioSource_SFX.PlayOneShot(menuConfirm);
+                break;
+
+            case SFX.BallBoop:
+                AudioSource_SFX.PlayOneShot(ballBoop);
+                break;
+
 			default:
 				break;
 
