@@ -82,22 +82,24 @@ public class GameManager : MonoBehaviour {
                 GameObject GoalGO = goalParent.transform.Find("Goal" + i).gameObject;
                 GameObject UseGoal = GoalGO.transform.FindChild("UseGoal").gameObject;
                 GameObject NotUseGoal = GoalGO.transform.FindChild("NotUseGoal").gameObject;
-                GameObject Text3D = GoalGO.transform.FindChild("Player3DText").gameObject;
-                Text3D.GetComponent<Animator>().speed = 0;
+				GameObject Text3D = null;
+
+				if ( GoalGO.transform.FindChild("Player3DText") != null )  Text3D = GoalGO.transform.FindChild("Player3DText").gameObject;
+                if(Text3D != null) Text3D.GetComponent<Animator>().speed = 0;
 
                 UseGoal.SetActive(false);
                 NotUseGoal.SetActive(true);
-                Text3D.SetActive(false);
+				if ( Text3D != null ) Text3D.SetActive(false);
 
                 if (i < players) {
                     UseGoal.SetActive(true);
                     NotUseGoal.SetActive(false);
-                    Text3D.SetActive(true);
+					if ( Text3D != null ) Text3D.SetActive(true);
 
                     GoalGO.GetComponentInChildren<Goal>().SetupGoal(PlayerObjects[i].GetComponent<PlayerBall>());
                     Goals.Add(GoalGO.GetComponentInChildren<Goal>());
-                    Text3D.GetComponent<TextMesh>().color = GoalGO.GetComponentInChildren<Goal>().gridColor;
-                    PlayerObjects[i].GetComponent<PlayerBall>().Player3DText = Text3D;
+					if ( Text3D != null ) Text3D.GetComponent<TextMesh>().color = GoalGO.GetComponentInChildren<Goal>().gridColor;
+					if ( Text3D != null ) PlayerObjects[i].GetComponent<PlayerBall>().Player3DText = Text3D;
                 }
             }
 		}
