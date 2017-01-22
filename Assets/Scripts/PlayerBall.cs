@@ -1,12 +1,14 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using XboxCtrlrInput;
 
 public enum PlayerStatus {
 	Lobby,
 	Ready,
 	Game,
+	GameOver,
 	None
 }
 
@@ -135,6 +137,9 @@ public class PlayerBall : MonoBehaviour {
 
 
         velocity /= 1.2f;
+
+		if ( XCI.GetButtonDown(XboxButton.Back, MappedController) && playerIndex == 0) SceneManager.LoadScene(0);
+
 	}
 
 	void AddShake() {

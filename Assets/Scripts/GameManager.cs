@@ -27,6 +27,7 @@ public class GameManager : MonoBehaviour {
 	[Header("UI Elements")]
 	public GameObject HUD;
 	public GameObject Splash;
+	public GameObject GameDone;
 
     private bool doneSpawning = false;
     private float levelStartTime = 0;
@@ -43,8 +44,9 @@ public class GameManager : MonoBehaviour {
 		Level.SetActive(false);
 		Splash.SetActive(true);
 		HUD.SetActive(false);
-        
 	}
+
+
 
 	void Update() {
 		if(XCI.GetButtonDown(XboxButton.A, XboxController.First)  && !GameStarted) {
@@ -60,7 +62,7 @@ public class GameManager : MonoBehaviour {
             doneSpawning = false;
             LevelBuilder.Instance.NextPhase();
         }
-    }
+	}
 
 	IEnumerator StartLevelSequence() {
 		Splash.GetComponent<Animator>().speed = 1;
@@ -184,7 +186,22 @@ public class GameManager : MonoBehaviour {
 			return false;
 		}
 	}
+	
+	public void GameDoneCall() {
+		StartCoroutine(GameDoneSequence());
+	}
 
+	IEnumerator GameDoneSequence() {
+		float aTime = 1;
+		float aValue = 1;
+		float alpha = GameDone.GetComponent<Image>().color.a;
+
+		for ( float t = 0.0f; t < 1.0f; t += Time.deltaTime / aTime ) {
+			Color newColor = new Color(1, 1, 1, Mathf.Lerp(alpha,aValue,t));
+			GameDone.GetComponent<Image>().color = newColor;
+			yield return null;
+		}
+	}
 
 	//when a score event happens on the goal of the playerindex.
 	public void Score(int _PlayerIndex) {
