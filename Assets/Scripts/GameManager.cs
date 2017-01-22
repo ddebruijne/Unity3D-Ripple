@@ -28,6 +28,9 @@ public class GameManager : MonoBehaviour {
 	public GameObject HUD;
 	public GameObject Splash;
 
+    private bool doneSpawning = false;
+    private float levelStartTime = 0;
+
 	void Start() {
 		instance = this;
 		CreatePlayers();
@@ -51,6 +54,12 @@ public class GameManager : MonoBehaviour {
 		}
 
         CubeGrid.Instance.SetRaiseAmount(Vector2.zero, 0, 0, Mathf.Sin(Time.time) / 5, 5);
+
+        if (doneSpawning &&
+            (Time.time - levelStartTime) >= 60) {
+            doneSpawning = false;
+            LevelBuilder.Instance.NextPhase();
+        }
     }
 
 	IEnumerator StartLevelSequence() {
@@ -155,7 +164,7 @@ public class GameManager : MonoBehaviour {
 		//Enable HUD and spawn the balls
 		yield return new WaitForSeconds(1);
 		HUD.SetActive(true);
-		StartCoroutine(SpawnBallRoutine());
+        SpawnBalls();
 
 		yield return new WaitForSeconds(1);
 		CameraPivotRotate.enabled = true;
@@ -201,16 +210,38 @@ public class GameManager : MonoBehaviour {
 	}
 
     private IEnumerator SpawnBallRoutine() {
+        int currentWave = 0;
+        doneSpawning = false;
+        levelStartTime = Time.time;
 
+        yield return new WaitForSeconds(2);
         while (true) {
-            SpawnBall();
-            yield return new WaitForSeconds(2);
+            if (currentWave <= 4) {
+                for (int i = 0; i < (currentWave + 1) * 5; i++) {
+                    SpawnBall();
+                    yield return new WaitForSeconds(0.1f);
+                }
+                currentWave++;
+                yield return new WaitForSeconds(5);
+            }else {
+                break;
+            }
         }
+
+        doneSpawning = true;
+        yield return null;
+    }
+
+    public void SpawnBalls() {
+        StartCoroutine(SpawnBallRoutine());
     }
 
     public void SpawnBall() {
         GameObject b = Instantiate(BallPrefab);
-        b.transform.position = BallSpawnPos.position;
+        b.transform.position = BallSpawnPos.position + new Vector3(
+            Random.Range(-0.5f, 0.5f),
+            Random.Range(-0.5f, 0.5f),
+            Random.Range(-0.5f, 0.5f));
         b.GetComponent<Rigidbody>().AddForce(new Vector3(
             Random.Range(-100, 100),
             Random.Range(-100, 100),

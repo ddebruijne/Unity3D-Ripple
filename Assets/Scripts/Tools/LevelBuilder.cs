@@ -19,6 +19,7 @@ public class LevelBuilder : MonoBehaviour {
             foreach(GridCube c in GetCubes(obj)) {
                 c.SetRaiseAmount(-100, 0, 4);
             }
+            obj.SetActive(false);
         }
     }
 
@@ -26,20 +27,28 @@ public class LevelBuilder : MonoBehaviour {
         if (Input.GetKeyDown(KeyCode.Space)) GoToPhase(2, 1);
     }
 
+    public void NextPhase() {
+        GoToPhase(currentPhase + 1, 1);
+    }
+
     public void GoToPhase(int phase, int waitTime) {
         StartCoroutine(GoToPhaseSequence(phase, 1));
 
         if(phase == 2) {
-            CameraController.Instance.SetOrtographicSize(18);
+            CameraController.Instance.SetOrtographicSize(20);
         }else {
-            CameraController.Instance.SetOrtographicSize(15);
+            CameraController.Instance.SetOrtographicSize(17);
+        }
+
+        if(phase >= 2) {
+            GameManager.instance.SpawnBalls();
         }
     }
 
     private IEnumerator GoToPhaseSequence(int phase, int waitTime) {
         HidePreviousPhase();
         yield return new WaitForSeconds(waitTime);
-        Show(GetCubes(phaseObjects[phase]));
+        Show(GetCubes(phaseObjects[phase]), phase);
 
         if (phase != 0) currentPhase = phase;
     }
@@ -49,18 +58,34 @@ public class LevelBuilder : MonoBehaviour {
     }
 
     private void HidePreviousPhase() {
-        if (currentPhase >= 1) Hide(GetCubes(phaseObjects[currentPhase]));
+        if (currentPhase >= 1) Hide(GetCubes(phaseObjects[currentPhase]), currentPhase);
     }
 
-    public void Hide(IEnumerable<GridCube> cubes) {
+    public void Hide(IEnumerable<GridCube> cubes, int phase) {
         foreach (GridCube c in cubes) {
             StartCoroutine(AnimateCube(c, 0, -50));
         }
+
+        foreach (Goal g in phaseObjects[phase].GetComponentsInChildren<Goal>(true)) {
+            g.gameObject.SetActive(false);
+        }
+
+        StartCoroutine(HideDelay(phaseObjects[phase]));
     }
 
-    public void Show(IEnumerable<GridCube> cubes) {
+    private IEnumerator HideDelay(GameObject obj) {
+        yield return new WaitForSeconds(5);
+        obj.SetActive(false);
+    }
+
+    public void Show(IEnumerable<GridCube> cubes, int phase) {
+        phaseObjects[phase].SetActive(true);
         foreach (GridCube c in cubes) {
             StartCoroutine(AnimateCube(c, -50, 0));
+        }
+
+        foreach(Goal g in phaseObjects[phase].GetComponentsInChildren<Goal>(true)) {
+            g.gameObject.SetActive(true);
         }
     }
 
@@ -76,7 +101,7 @@ public class LevelBuilder : MonoBehaviour {
         yield return new WaitForSeconds(Random.Range(0, 1f));
 
         float value = start;
-        float animationSpeed = Random.Range(0.05f, 0.1f) * (end != 0 ? 0.75f: 1);
+        float animationSpeed = Random.Range(0.1f, 0.15f) * (end != 0 ? 0.75f: 1);
         while (Mathf.Abs(end - value) >= 0.01f) {
             cube.SetRaiseAmount(value, value, 4);
             value = Mathf.Lerp(value, end, animationSpeed);

@@ -27,7 +27,7 @@ public class GoalLight : MonoBehaviour {
     }
 
     public void FlashColor(Color c, int player) {
-        flashColor = c;
+        flashColor = c / 2;
         flashColorTime = 2;
 
         playerID = player;

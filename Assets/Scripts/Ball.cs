@@ -11,19 +11,20 @@ public class Ball : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		
+		if(transform.position.y < -100) {
+            DestroyBall();
+        }
 	}
 
 	void OnCollisionEnter (Collision col) {
 		if(col.gameObject.tag == "Goal" ) {
 			Debug.Log("Ayy lmao this is a goal!");
-			col.gameObject.GetComponent<Goal>().OnScoreEvent();
-			Destroy(this.gameObject);
+            col.gameObject.GetComponent<Goal>().OnScoreEvent();
+            DestroyBall();
 		}
 	}
 
-	IEnumerator DestroyAfterDelay() {
-		yield return new WaitForSeconds(0.5f);
+	void DestroyBall() {
         GameManager.instance.Balls.Remove(gameObject);
 		Destroy(this.gameObject);
 	}
