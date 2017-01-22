@@ -58,7 +58,8 @@ public class GameManager : MonoBehaviour {
         CubeGrid.Instance.SetRaiseAmount(Vector2.zero, 0, 0, Mathf.Sin(Time.time) / 5, 5);
 
         if (doneSpawning &&
-            (Time.time - levelStartTime) >= 60) {
+            ((Time.time - levelStartTime) >= 60 ||
+            Balls.Count == 0)) {
             doneSpawning = false;
             LevelBuilder.Instance.NextPhase();
         }
@@ -233,7 +234,7 @@ public class GameManager : MonoBehaviour {
 
         yield return new WaitForSeconds(2);
         while (true) {
-            if (currentWave < 4) {
+            if (currentWave < 6) {
                 for (int i = 0; i < (currentWave + 1) * 5; i++) {
                     SpawnBall();
                     yield return new WaitForSeconds(0.1f);
