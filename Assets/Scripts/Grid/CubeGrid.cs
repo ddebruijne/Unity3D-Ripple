@@ -17,17 +17,15 @@ public class CubeGrid : MonoBehaviour {
 
     public AnimationCurve coolCurve;
 
+    public Vector2 boundsX = Vector2.zero;
+    public Vector2 boundsY = Vector2.zero;
+
     void Awake() {
         Instance = this;
     }
 
     void Start() {
         BuildLevelSequence();
-    }
-
-    void Update() {
-        //SetRaiseAmount(new Vector2(Mathf.Sin(Time.time / 2) * 10, Mathf.PerlinNoise(Time.time, Time.time) + Mathf.Sin(Time.time / 4) * 5) - new Vector2(5,5), 2, 0);
-        //SetRaiseAmount(new Vector2(Mathf.PerlinNoise(Time.time, Time.time) + Mathf.Sin(Time.time / 5) * 10, Mathf.Sin(Time.time / 2) * 10) - new Vector2(5, 5), 1, 1);
     }
 
     public void SetRaiseAmount(Vector2 location, float height, float color, float overallColor, int player) {
@@ -71,7 +69,7 @@ public class CubeGrid : MonoBehaviour {
         cube.SetRaiseAmount(0, 0, 4);
     }
 
-    [ContextMenu("Find Cubes")]
+    [ContextMenu("Setup Level")]
     private void FindCubes() {
         cubes = new List<GridCube>(gameObject.GetComponentsInChildren<GridCube>(true));
 
@@ -80,6 +78,12 @@ public class CubeGrid : MonoBehaviour {
             c.colors = playerColors;
 
             c.SetToDefaultPosition();
+
+            Vector2 cPos = new Vector2(c.transform.position.x, c.transform.position.z);
+            if (cPos.x < boundsX.x) boundsX.x = cPos.x;
+            if (cPos.x > boundsX.y) boundsX.y = cPos.x;
+            if (cPos.y < boundsY.x) boundsY.x = cPos.y;
+            if (cPos.y > boundsY.y) boundsY.y = cPos.y;
         }
 
         glasses = new List<GlassPulse>(gameObject.GetComponentsInChildren<GlassPulse>(true));

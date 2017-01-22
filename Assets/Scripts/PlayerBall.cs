@@ -59,8 +59,10 @@ public class PlayerBall : MonoBehaviour {
 		playerStatus = PlayerStatus.Lobby;
 	}
 
-	void Awake () { cam = Camera.main; }
-
+	void Awake () {
+        cam = GameManager.instance.cam;
+	}
+	
 	private void OnDestroy() { XInputDotNetPure.GamePad.SetVibration(MappedControllerXinput, 0, 0); }
 
 	void Update () {
@@ -109,6 +111,11 @@ public class PlayerBall : MonoBehaviour {
 
         velocity += new Vector2(moveDirection.x, moveDirection.z) * 2;
         currentPos += velocity * Time.deltaTime;
+
+        if (currentPos.x < CubeGrid.Instance.boundsX.x) currentPos.x = CubeGrid.Instance.boundsX.x;
+        if (currentPos.x > CubeGrid.Instance.boundsX.y) currentPos.x = CubeGrid.Instance.boundsX.y;
+        if (currentPos.y < CubeGrid.Instance.boundsY.x) currentPos.y = CubeGrid.Instance.boundsY.x;
+        if (currentPos.y > CubeGrid.Instance.boundsY.y) currentPos.y = CubeGrid.Instance.boundsY.y;
 
         CubeGrid.Instance.SetRaiseAmount(currentPos, XCI.GetAxisRaw(XboxAxis.RightTrigger, MappedController), XCI.GetAxisRaw(XboxAxis.RightTrigger, MappedController) * 2f, goalColorOffset, playerIndex);
 
