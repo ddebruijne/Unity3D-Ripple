@@ -106,6 +106,7 @@ public class GameManager : MonoBehaviour {
 		PlayerObjects[_playerindex].GetComponent<PlayerBall>().playerStatus = PlayerStatus.Ready;
 		PlayerObjects[_playerindex].GetComponent<PlayerBall>().Player3DText.GetComponent<TextMesh>().text = "READY";
 		StartCoroutine(PlayerReadySequence(_playerindex));
+		AreTwoReady();
 	}
 
 	public IEnumerator PlayerReadySequence(int _playerIndex) {
@@ -115,12 +116,19 @@ public class GameManager : MonoBehaviour {
 
 	public void GameStartCall() {
 		//TODO: foreach player set playerstatus game
+
 		//TODO: foreach player set 3D text inactive.
 		StartCoroutine(StartGameSequence());
 	}
 
 	IEnumerator StartGameSequence() {
-		yield return new WaitForSeconds(2);
+		for ( int i = 0; i < 4; i++ ) {
+			GameObject GoalGO = GameObject.Find("Goal" + i);
+			GameObject Text3D = GoalGO.transform.FindChild("Player3DText").gameObject;
+			Text3D.GetComponent<Animator>().speed = 1;
+			PlayerObjects[i].GetComponent<PlayerBall>().playerStatus = PlayerStatus.Game;
+		}
+		yield return new WaitForSeconds(1);
 		HUD.SetActive(true);
 		StartCoroutine(SpawnBallRoutine());
 
@@ -129,7 +137,18 @@ public class GameManager : MonoBehaviour {
 	}
 
 	public bool AreTwoReady() {
-		return false;
+		if ( PlayerObjects[0].GetComponent<PlayerBall>().playerStatus == PlayerStatus.Ready && PlayerObjects[1].GetComponent<PlayerBall>().playerStatus == PlayerStatus.Ready ) {
+			PlayerObjects[0].GetComponent<PlayerBall>().Player3DText.GetComponent<TextMesh>().text = "P1 A TO START";
+			return true;
+		} else {
+			if( PlayerObjects[0].GetComponent<PlayerBall>().playerStatus == PlayerStatus.Ready ) {
+				PlayerObjects[0].GetComponent<PlayerBall>().Player3DText.GetComponent<TextMesh>().text = "READY";
+
+			} else if ( PlayerObjects[0].GetComponent<PlayerBall>().playerStatus == PlayerStatus.Lobby ) {
+				PlayerObjects[0].GetComponent<PlayerBall>().Player3DText.GetComponent<TextMesh>().text = "P1 R2";
+			}
+			return false;
+		}
 	}
 
 

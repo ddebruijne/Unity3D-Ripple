@@ -98,10 +98,11 @@ public class PlayerBall : MonoBehaviour {
 			if(XCI.GetButtonDown(XboxButton.B, MappedController) ) {
 				//Unready
 				playerStatus = PlayerStatus.Lobby;
-				Player3DText.GetComponent<TextMesh>().text = "P" + (playerIndex+1) + " L2";
+				Player3DText.GetComponent<TextMesh>().text = "P" + (playerIndex+1) + " R2";
+				GameManager.instance.AreTwoReady();
 			}
 			if ( XCI.GetButtonDown(XboxButton.A, MappedController) ) {
-				if ( playerIndex == 0 /*&& GameManager.instance.AreTwoReady()*/ ) GameManager.instance.GameStartCall();
+				if ( playerIndex == 0 && GameManager.instance.AreTwoReady() ) GameManager.instance.GameStartCall();
 			}
 		}
 
