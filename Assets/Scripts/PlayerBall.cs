@@ -126,6 +126,9 @@ public class PlayerBall : MonoBehaviour {
             foreach (GameObject o in GameManager.instance.Balls) {
                 if (o == null) continue;
                 Vector3 oPos = o.transform.position;
+
+                if (oPos.y > 2.5f) continue;
+
                 Vector2 oPos2D = new Vector2(oPos.x, oPos.z);
                 float distance = Vector2.Distance(oPos2D, currentPos);
                 Vector3 direction = (oPos - new Vector3(currentPos.x, oPos.y, currentPos.y));
