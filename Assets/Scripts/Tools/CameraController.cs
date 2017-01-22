@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class CameraController : MonoBehaviour {
 
-    private float camShake = 0;
+    public float camShake = 0;
 
     private Vector3 sPosition;
 

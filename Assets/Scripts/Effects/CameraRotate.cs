@@ -14,6 +14,5 @@ public class CameraRotate : MonoBehaviour {
 
 	void Update () {
         transform.Rotate(new Vector3(0, 10 * Time.deltaTime, 0), Space.World);
-        cam.transform.LookAt(transform);
     }
 }

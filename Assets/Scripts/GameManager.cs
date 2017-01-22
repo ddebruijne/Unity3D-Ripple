@@ -16,6 +16,7 @@ public class GameManager : MonoBehaviour {
 	public GameObject Level;
 	public CameraRotate CameraPivotRotate;
     public List<GameObject> ScoreText;
+    public Camera cam;
 
 	[Header("Read Only Objects")]
 	[ReadOnly]	public List<GameObject> PlayerObjects;
@@ -31,7 +32,7 @@ public class GameManager : MonoBehaviour {
 		instance = this;
 		CreatePlayers();
 		SetupGoals();
-		CameraAnimator = GetComponent<Animator>();
+		CameraAnimator = GetComponentInChildren<Animator>();
 
 		//Pause it all.
 		CameraAnimator.speed = 0 ;
@@ -110,7 +111,7 @@ public class GameManager : MonoBehaviour {
             glass.FlashColor(CubeGrid.Instance.playerColors[_PlayerIndex]);
         }
 
-        Camera.main.gameObject.GetComponent<CameraController>().AddCameraShake(0.5f);
+        GameManager.instance.cam.gameObject.GetComponent<CameraController>().AddCameraShake(0.5f);
 
         UpdateScoreText();
 	}

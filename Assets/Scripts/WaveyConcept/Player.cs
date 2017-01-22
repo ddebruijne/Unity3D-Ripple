@@ -18,7 +18,7 @@ public class Player : MonoBehaviour {
 		SetPlayerColor(Color.black);
 
 		//Set starting position at 1/3rd of the horizontal resolution and 1/2th of the vertical resolution
-		Camera cam = Camera.main;
+		Camera cam = GameManager.instance.cam;
 		Vector3 Position = cam.ViewportToWorldPoint(new Vector3(0.333f, 0.5f, cam.nearClipPlane));
 		Position.z = 0;
 		this.transform.position = Position;
