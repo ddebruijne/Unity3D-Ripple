@@ -46,6 +46,7 @@ public class GameManager : MonoBehaviour {
 	void Update() {
 		if(XCI.GetButtonDown(XboxButton.A, XboxController.First)  && !GameStarted) {
 			StartCoroutine(StartLevelSequence());
+			SoundManager.Instance.PlaySFX(SFX.MenuConfirm);
 			GameStarted = true;
 		}
 

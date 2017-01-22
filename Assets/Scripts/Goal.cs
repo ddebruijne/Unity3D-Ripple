@@ -22,7 +22,7 @@ public class Goal : MonoBehaviour {
 	public void OnScoreEvent() {
 		GameManager.instance.Score(player.playerIndex);
         goalLight.FlashColor(CubeGrid.Instance.playerColors[player.playerIndex], player.playerIndex);
-
+		SoundManager.Instance.PlaySFX(SFX.Goal);
     }
 
 }
