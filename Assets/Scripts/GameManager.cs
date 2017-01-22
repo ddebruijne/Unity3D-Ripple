@@ -58,6 +58,7 @@ public class GameManager : MonoBehaviour {
 		yield return new WaitForSeconds(1);
 		Splash.SetActive(false);
 		CameraAnimator.speed = 1;
+        yield return new WaitForSeconds(1);
 		Level.SetActive(true);
 	}
 
@@ -78,26 +79,28 @@ public class GameManager : MonoBehaviour {
 
 	void SetupGoals() {
 		for(int i = 0; i < 4; i++ ) {
-			GameObject GoalGO = GameObject.Find("Goal" + i);
-			GameObject UseGoal = GoalGO.transform.FindChild("UseGoal").gameObject;
-			GameObject NotUseGoal = GoalGO.transform.FindChild("NotUseGoal").gameObject;
-			GameObject Text3D = GoalGO.transform.FindChild("Player3DText").gameObject;
-			Text3D.GetComponent<Animator>().speed = 0;
+            foreach(GameObject goalParent in CubeGrid.Instance.goalParents) {
+                GameObject GoalGO = goalParent.transform.Find("Goal" + i).gameObject;
+                GameObject UseGoal = GoalGO.transform.FindChild("UseGoal").gameObject;
+                GameObject NotUseGoal = GoalGO.transform.FindChild("NotUseGoal").gameObject;
+                GameObject Text3D = GoalGO.transform.FindChild("Player3DText").gameObject;
+                Text3D.GetComponent<Animator>().speed = 0;
 
-			UseGoal.SetActive(false);
-			NotUseGoal.SetActive(true);
-			Text3D.SetActive(false);
+                UseGoal.SetActive(false);
+                NotUseGoal.SetActive(true);
+                Text3D.SetActive(false);
 
-			if (i < players) {
-				UseGoal.SetActive(true);
-				NotUseGoal.SetActive(false);
-				Text3D.SetActive(true);
+                if (i < players) {
+                    UseGoal.SetActive(true);
+                    NotUseGoal.SetActive(false);
+                    Text3D.SetActive(true);
 
-				GoalGO.GetComponentInChildren<Goal>().SetupGoal(PlayerObjects[i].GetComponent<PlayerBall>());
-				Goals.Add(GoalGO.GetComponentInChildren<Goal>());
-				Text3D.GetComponent<TextMesh>().color = GoalGO.GetComponentInChildren<Goal>().gridColor;
-				PlayerObjects[i].GetComponent<PlayerBall>().Player3DText = Text3D;
-			}
+                    GoalGO.GetComponentInChildren<Goal>().SetupGoal(PlayerObjects[i].GetComponent<PlayerBall>());
+                    Goals.Add(GoalGO.GetComponentInChildren<Goal>());
+                    Text3D.GetComponent<TextMesh>().color = GoalGO.GetComponentInChildren<Goal>().gridColor;
+                    PlayerObjects[i].GetComponent<PlayerBall>().Player3DText = Text3D;
+                }
+            }
 		}
 	}
 

@@ -19,10 +19,13 @@ public class GridCube : MonoBehaviour {
     public float heightOffset = 0;
     public bool isMoveable = true;
 
+    public Vector3 originalScale;
+
     void Awake() {
         material = GetComponent<MeshRenderer>().material;
+        originalScale = transform.localScale;
 
-        for(int i = 0; i < playerCount; i++) {
+        for (int i = 0; i < playerCount; i++) {
             raiseAmount.Add(0);
             actualRaiseAmount.Add(0);
             actualColors.Add(Color.black);
@@ -44,6 +47,7 @@ public class GridCube : MonoBehaviour {
     }
 
     public void SetRaiseAmount(float height, float color, int player) {
+        if (raiseAmount.Count == 0) return;
         raiseAmount[player] = height * 1.5f;
         colorAmount[player] = color;
     }

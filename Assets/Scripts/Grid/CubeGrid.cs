@@ -8,6 +8,7 @@ public class CubeGrid : MonoBehaviour {
 
     public List<GridCube> cubes = new List<GridCube>();
     public List<GlassPulse> glasses = new List<GlassPulse>();
+    public List<GameObject> goalParents = new List<GameObject>();
 
     public float raiseRange = 2.5f;
     public float maxRaiseHeight = 1;
@@ -42,31 +43,8 @@ public class CubeGrid : MonoBehaviour {
 
     public void BuildLevelSequence() {
         List<GridCube> cubestoLoad = new List<GridCube>(cubes);
-
-        Debug.Log("LUL");
-        foreach(GridCube c in cubestoLoad) {
-            StartCoroutine(AnimateCube(c));
-        }
-    }
-
-    private IEnumerator AnimateCube(GridCube cube) {
-        Vector3 originalScale = cube.transform.localScale;
-
-        cube.SetRaiseAmount(-100, 1, 4);
-        cube.transform.localScale = Vector3.zero;
-
-        yield return new WaitForSeconds(Random.Range(0, 1f));
-
-        float value = -100;
-        float animationSpeed = Random.Range(0.05f, 0.1f);
-        while (value <= -0.01f) {
-            cube.SetRaiseAmount(value, value, 4);
-            value = Mathf.Lerp(value, 0, animationSpeed);
-            cube.transform.localScale = Vector3.Lerp(cube.transform.localScale, originalScale, animationSpeed);
-            yield return null;
-        }
-
-        cube.SetRaiseAmount(0, 0, 4);
+        LevelBuilder.Instance.GoToPhase(0, 0);
+        LevelBuilder.Instance.GoToPhase(1, 0);
     }
 
     [ContextMenu("Setup Level")]
@@ -78,14 +56,24 @@ public class CubeGrid : MonoBehaviour {
             c.colors = playerColors;
 
             c.SetToDefaultPosition();
+        }
 
+        ResetBounds();
+
+        glasses = new List<GlassPulse>(gameObject.GetComponentsInChildren<GlassPulse>(true));
+
+        foreach(GlassPulse glass in glasses) {
+            glass.GetComponent<GridCube>().isMoveable = true;
+        }
+    }
+
+    public void ResetBounds() {
+        foreach (GridCube c in cubes) {
             Vector2 cPos = new Vector2(c.transform.position.x, c.transform.position.z);
             if (cPos.x < boundsX.x) boundsX.x = cPos.x;
             if (cPos.x > boundsX.y) boundsX.y = cPos.x;
             if (cPos.y < boundsY.x) boundsY.x = cPos.y;
             if (cPos.y > boundsY.y) boundsY.y = cPos.y;
         }
-
-        glasses = new List<GlassPulse>(gameObject.GetComponentsInChildren<GlassPulse>(true));
     }
 }
