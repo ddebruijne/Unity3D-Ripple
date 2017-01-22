@@ -68,7 +68,7 @@ public class GameManager : MonoBehaviour {
 			go.GetComponent<PlayerBall>().SetupPlayer(i);
 			go.name = "Player " + i;
 			ScoreText[i].SetActive(true);
-
+			ScoreText[i].GetComponentInChildren<Text>().color = CubeGrid.Instance.playerColors[i];
 
 			PlayerObjects.Add(go);
 		}
@@ -193,7 +193,7 @@ public class GameManager : MonoBehaviour {
 
 	public void UpdateScoreText() {
 		for ( int i = 0; i < PlayerObjects.Count; i++ ) {
-			ScoreText[i].GetComponent<Text>().text = PlayerObjects[i].GetComponent<PlayerBall>().score + "";
+			ScoreText[i].GetComponentInChildren<Text>().text = PlayerObjects[i].GetComponent<PlayerBall>().score + "";
 		}
 	}
 
