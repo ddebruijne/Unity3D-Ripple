@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class GridCube : MonoBehaviour {
 
-    private int playerCount = 9;
+    private int playerCount = 10;
 
     private Vector3 defaultPos;
     private Material material;

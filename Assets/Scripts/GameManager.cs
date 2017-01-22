@@ -8,7 +8,7 @@ public class GameManager : MonoBehaviour {
 
 	public static GameManager instance;
 
-	int players = 2;                    //Max 4.
+	int players = 4;                    //Max 4.
 	public GameObject PlayerBallPrefab; //These are mostly empty but with scripts attached.
 	public GameObject GoalPrefab;       //Standard orientation bottomleft.
     public GameObject BallPrefab;
