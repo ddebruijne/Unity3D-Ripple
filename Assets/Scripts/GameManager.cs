@@ -28,6 +28,7 @@ public class GameManager : MonoBehaviour {
 	[Header("UI Elements")]
 	public GameObject HUD;
 	public GameObject Splash;
+
 	void Start() {
 		instance = this;
 		CreatePlayers();
@@ -38,6 +39,8 @@ public class GameManager : MonoBehaviour {
 		CameraAnimator.speed = 0 ;
 		Splash.GetComponent<Animator>().speed = 0;
 		Level.SetActive(false);
+		Splash.SetActive(true);
+		HUD.SetActive(false);
         
 	}
 
@@ -52,18 +55,10 @@ public class GameManager : MonoBehaviour {
 
 	IEnumerator StartLevelSequence() {
 		Splash.GetComponent<Animator>().speed = 1;
-
 		yield return new WaitForSeconds(1);
 		Splash.SetActive(false);
 		CameraAnimator.speed = 1;
 		Level.SetActive(true);
-
-		yield return new WaitForSeconds(2);
-		HUD.SetActive(true);
-		StartCoroutine(SpawnBallRoutine());
-
-		yield return new WaitForSeconds(1);
-		CameraPivotRotate.enabled = true;
 	}
 
 	void CreatePlayers() {
@@ -73,6 +68,7 @@ public class GameManager : MonoBehaviour {
 			go.GetComponent<PlayerBall>().SetupPlayer(i);
 			go.name = "Player " + i;
 			ScoreText[i].SetActive(true);
+
 
 			PlayerObjects.Add(go);
 		}
@@ -85,19 +81,56 @@ public class GameManager : MonoBehaviour {
 			GameObject GoalGO = GameObject.Find("Goal" + i);
 			GameObject UseGoal = GoalGO.transform.FindChild("UseGoal").gameObject;
 			GameObject NotUseGoal = GoalGO.transform.FindChild("NotUseGoal").gameObject;
+			GameObject Text3D = GoalGO.transform.FindChild("Player3DText").gameObject;
 
 			UseGoal.SetActive(false);
 			NotUseGoal.SetActive(true);
+			Text3D.SetActive(false);
 
 			if (i < players) {
 				UseGoal.SetActive(true);
 				NotUseGoal.SetActive(false);
+				Text3D.SetActive(true);
+
 				GoalGO.GetComponentInChildren<Goal>().SetupGoal(PlayerObjects[i].GetComponent<PlayerBall>());
 				Goals.Add(GoalGO.GetComponentInChildren<Goal>());
-
+				Text3D.GetComponent<TextMesh>().color = GoalGO.GetComponentInChildren<Goal>().gridColor;
+				PlayerObjects[i].GetComponent<PlayerBall>().Player3DText = Text3D;
 			}
 		}
 	}
+
+	public void Ready(int _playerindex) {
+		XInputDotNetPure.GamePad.SetVibration(PlayerObjects[_playerindex].GetComponent<PlayerBall>().MappedControllerXinput, 100, 100);
+		PlayerObjects[_playerindex].GetComponent<PlayerBall>().playerStatus = PlayerStatus.Ready;
+		PlayerObjects[_playerindex].GetComponent<PlayerBall>().Player3DText.GetComponent<TextMesh>().text = "READY";
+		StartCoroutine(PlayerReadySequence(_playerindex));
+	}
+
+	public IEnumerator PlayerReadySequence(int _playerIndex) {
+		yield return new WaitForSeconds(1);
+		XInputDotNetPure.GamePad.SetVibration(PlayerObjects[_playerIndex].GetComponent<PlayerBall>().MappedControllerXinput, 0, 0);
+	}
+
+	public void GameStartCall() {
+		//TODO: foreach player set playerstatus game
+		//TODO: foreach player set 3D text inactive.
+		StartCoroutine(StartGameSequence());
+	}
+
+	IEnumerator StartGameSequence() {
+		yield return new WaitForSeconds(2);
+		HUD.SetActive(true);
+		StartCoroutine(SpawnBallRoutine());
+
+		yield return new WaitForSeconds(1);
+		CameraPivotRotate.enabled = true;
+	}
+
+	public bool AreTwoReady() {
+		return false;
+	}
+
 
 	//when a score event happens on the goal of the playerindex.
 	public void Score(int _PlayerIndex) {
