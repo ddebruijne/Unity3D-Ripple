@@ -46,7 +46,7 @@ public class PlayerBall : MonoBehaviour {
 				MappedControllerXinput = XInputDotNetPure.PlayerIndex.Three;
 				break;
 			case 3:
-				MappedController = XboxController.Third;
+				MappedController = XboxController.Fourth;
 				MappedControllerXinput = XInputDotNetPure.PlayerIndex.Four;
 				break;
 			default:
