@@ -12,11 +12,11 @@ public class GlassPulse : MonoBehaviour {
 
     void Start() {
         mat = GetComponent<MeshRenderer>().material;
-        startColor = mat.GetColor("_Tint");
+        startColor = mat.GetColor("_Color");
     }
 
     void Update() {
-        mat.SetColor("_Tint", 
+        mat.SetColor("_Color", 
             Color.Lerp(startColor + new Color(0, 0, 0, Mathf.Sin(Time.time) / 6), flashColor, flashColorTime)
             );
 

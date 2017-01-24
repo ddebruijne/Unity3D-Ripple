@@ -32,6 +32,8 @@ public class GameManager : MonoBehaviour {
     private bool doneSpawning = false;
     private float levelStartTime = 0;
 
+    private CubeEffectCircle circleEffect;
+
 	void Start() {
 		instance = this;
 		CreatePlayers();
@@ -44,24 +46,22 @@ public class GameManager : MonoBehaviour {
 		Level.SetActive(false);
 		Splash.SetActive(true);
 		HUD.SetActive(false);
-	}
+    }
 
 
 
 	void Update() {
-		if(XCI.GetButtonDown(XboxButton.A, XboxController.First)  && !GameStarted) {
+		if((XCI.GetButtonDown(XboxButton.A, XboxController.First) || Input.GetKeyDown(KeyCode.Space)) && !GameStarted) {
 			StartCoroutine(StartLevelSequence());
 			SoundManager.Instance.PlaySFX(SFX.MenuConfirm);
 			GameStarted = true;
 		}
 
-        CubeGrid.Instance.SetRaiseAmount(Vector2.zero, 0, 0, Mathf.Sin(Time.time) / 5, 5);
-
         if (doneSpawning &&
             ((Time.time - levelStartTime) >= 60 ||
             Balls.Count == 0)) {
             doneSpawning = false;
-            LevelBuilder.Instance.NextPhase();
+            //LevelBuilder.Instance.NextPhase();
         }
 	}
 

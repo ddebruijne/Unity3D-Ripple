@@ -9,6 +9,8 @@ public class Goal : MonoBehaviour {
     public GridCube goalPost;
 	public Color gridColor;
 
+    private CubeEffectCircle poleEffect;
+
 	public void SetupGoal(PlayerBall _player) {
 		player = _player;
 		gridColor = CubeGrid.Instance.playerColors[player.playerIndex];
@@ -17,10 +19,9 @@ public class Goal : MonoBehaviour {
         Vector2 origin2D = new Vector2(origin.x, origin.z);
         player.currentPos = origin2D + ((new Vector2(transform.position.x, transform.position.z) - origin2D).normalized * 4);
 
-    }
-
-    void Update() {
-        CubeGrid.Instance.SetRaiseAmount(new Vector2(goalPost.transform.position.x, goalPost.transform.position.z), Mathf.Sin(Time.time) + 1.5f, 1, 0, player.playerIndex + 6);
+        poleEffect = new CubeEffectCircle(new CubeEffectCircleSettings(CubeEffectModes.ALL, new Vector2(goalPost.transform.position.x, goalPost.transform.position.z), gridColor, 1, 5, 4));
+        poleEffect.AddAnimator(new CubeEffectAnimatorPulse(1, 0.75f, 1.25f));
+        CubeGrid.Instance.AddEffect(poleEffect);
     }
 
 	//Called when a ball collides with us.

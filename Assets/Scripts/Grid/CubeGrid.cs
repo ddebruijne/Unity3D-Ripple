@@ -21,6 +21,8 @@ public class CubeGrid : MonoBehaviour {
     public Vector2 boundsX = Vector2.zero;
     public Vector2 boundsY = Vector2.zero;
 
+    private List<ICubeEffect> cubeEffects = new List<ICubeEffect>();
+
     void Awake() {
         Instance = this;
     }
@@ -29,32 +31,21 @@ public class CubeGrid : MonoBehaviour {
         BuildLevelSequence();
     }
 
-    public void SetRaiseAmount(Vector2 location, float height, float color, float overallColor, int player) {
-        overallColor *= 2.5f;
-        height = Mathf.Clamp01(height);
-        color = Mathf.Clamp01(color);
-        foreach(GridCube cube in cubes) {
-            float distance = raiseRange / Vector2.Distance(location, new Vector2(cube.transform.position.x, cube.transform.position.z));
-            float clampedDistance = Mathf.Clamp01(distance);
-            float amount = (clampedDistance * height * 2.5f) - 0.1f;
-            cube.SetRaiseAmount(amount + (overallColor / 5), (color * (amount - 0.25f) + (clampedDistance * 2)) + overallColor, player);
-        }
+    void Update() {
+        UpdateEffects();
     }
 
     public void BuildLevelSequence() {
         List<GridCube> cubestoLoad = new List<GridCube>(cubes);
-        LevelBuilder.Instance.GoToPhase(0, 0);
-        LevelBuilder.Instance.GoToPhase(1, 0);
+        //LevelBuilder.Instance.GoToPhase(0, 0);
+        //LevelBuilder.Instance.GoToPhase(1, 0);
     }
 
     [ContextMenu("Setup Level")]
-    private void FindCubes() {
+    private void SetupLevel() {
         cubes = new List<GridCube>(gameObject.GetComponentsInChildren<GridCube>(true));
 
         foreach(GridCube c in cubes) {
-            //c.playerCount = playerCount;
-            c.colors = playerColors;
-
             c.SetToDefaultPosition();
         }
 
@@ -76,4 +67,22 @@ public class CubeGrid : MonoBehaviour {
             if (cPos.y > boundsY.y) boundsY.y = cPos.y;
         }
     }
+
+    #region Cube Effects
+    public void AddEffect(ICubeEffect effect) {
+        cubeEffects.Add(effect);
+    }
+
+    public void UpdateEffects() {
+        foreach(GridCube cube in cubes) {
+            GridCubeMod tMod = new GridCubeMod();
+            foreach (ICubeEffect effect in cubeEffects) {
+                GridCubeMod mod = effect.Update(cube);
+                tMod.Combine(mod);
+            }
+
+            cube.UpdateCube(tMod.Height, tMod.Color);
+        }
+    }
+    #endregion
 }

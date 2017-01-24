@@ -6,32 +6,34 @@ public class GoalLight : MonoBehaviour {
 
     private Material mat;
 
-    private Color invisibleColor = new Color(1,1,1,0);
-    private Color flashColor;
-    private float flashColorTime = 0;
+    public Color flashColor;
+    public float flashColorTime = 0;
 
     private int playerID = 0;
+
+    private CubeEffectAll flashEffect;
 
     void Start() {
         mat = GetComponent<MeshRenderer>().material;
     }
 
     void Update() {
-        mat.SetColor("_Tint",
-            Color.Lerp(invisibleColor, flashColor, flashColorTime)
-            );
+        if (flashEffect == null) return;
 
-        GameManager.instance.PlayerObjects[playerID].GetComponent<PlayerBall>().goalColorOffset = flashColorTime;
-
+        flashEffect.GetSettings().Color = flashColor;
+        flashEffect.GetSettings().FinalPower = Mathf.Clamp01(flashColorTime) * 0.75f;
         flashColorTime = Mathf.Lerp(flashColorTime, 0, 0.1f);
     }
 
     public void FlashColor(Color c, int player) {
-        flashColor = c / 2;
+        flashColor = c;
         flashColorTime = 2;
 
         playerID = player;
 
-        invisibleColor = new Color(c.r, c.g, c.b, 0);
+        if (flashEffect == null) {
+            flashEffect = new CubeEffectAll(new CubeEffectAllSettings(CubeEffectModes.COLOR, flashColor, 0));
+            CubeGrid.Instance.AddEffect(flashEffect);
+        }
     }
 }

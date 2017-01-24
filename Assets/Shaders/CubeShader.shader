@@ -52,7 +52,7 @@
 			
 			fixed4 frag (v2f i) : SV_Target
 			{
-				fixed4 col = (pow(i.uv.y, 3) * (_TopColor + (_Color * 0.5)));
+				fixed4 col = (pow(i.uv.y, 3) * (_TopColor + (_Color)));
 
 				fixed4 inv = 1 - pow(i.uv.y, 3);
 				inv.a = inv.r;

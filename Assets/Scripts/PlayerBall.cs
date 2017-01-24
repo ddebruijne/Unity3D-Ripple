@@ -31,6 +31,8 @@ public class PlayerBall : MonoBehaviour {
 	float shakefalloff = 5;
 	float shakeholdmultiplier = 7;
 
+    private CubeEffectCircle playerEffect;
+
 	public void SetupPlayer(int _playerIndex) {
 		playerIndex = _playerIndex;
 
@@ -59,11 +61,18 @@ public class PlayerBall : MonoBehaviour {
 
 		score = 0;
 		playerStatus = PlayerStatus.Lobby;
-	}
+
+        playerEffect = new CubeEffectCircle(new CubeEffectCircleSettings(CubeEffectModes.ALL, Vector2.zero, CubeGrid.Instance.playerColors[playerIndex], 0, 4f, 4f));
+        playerEffect.AddAnimator(new CubeEffectAnimatorPulse(1, 0.25f, 0.5f));
+    }
 
 	void Awake () {
         cam = GameManager.instance.cam;
 	}
+
+    void Start() {
+        CubeGrid.Instance.AddEffect(playerEffect);
+    }
 	
 	private void OnDestroy() { XInputDotNetPure.GamePad.SetVibration(MappedControllerXinput, 0, 0); }
 
@@ -120,7 +129,8 @@ public class PlayerBall : MonoBehaviour {
         if (currentPos.y < CubeGrid.Instance.boundsY.x) currentPos.y = CubeGrid.Instance.boundsY.x;
         if (currentPos.y > CubeGrid.Instance.boundsY.y) currentPos.y = CubeGrid.Instance.boundsY.y;
 
-        CubeGrid.Instance.SetRaiseAmount(currentPos, XCI.GetAxisRaw(XboxAxis.RightTrigger, MappedController), XCI.GetAxisRaw(XboxAxis.RightTrigger, MappedController) * 2f, goalColorOffset, playerIndex);
+        playerEffect.GetSettings().Position = currentPos;
+        playerEffect.GetSettings().FinalPower = XCI.GetAxisRaw(XboxAxis.RightTrigger) * 4;
 
         if (GameManager.instance.Balls != null) {
             foreach (GameObject o in GameManager.instance.Balls) {

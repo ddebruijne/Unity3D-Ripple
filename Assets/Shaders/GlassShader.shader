@@ -3,7 +3,7 @@
 	Properties
 	{
 		_MainTex("Color (RGB) Alpha (A)", 2D) = "white" {}
-		_Tint("Tint", Color) = (1,1,1,1)
+		_Color("Tint", Color) = (1,1,1,1)
 	}
 		SubShader{
 			Tags{ "RenderType" = "Transparent" "Queue" = "Transparent" }
@@ -14,7 +14,7 @@
 			CGPROGRAM
 			#pragma surface surf Lambert alpha
 
-			fixed4 _Tint;
+			fixed4 _Color;
 		sampler2D _MainTex;
 
 		struct Input {
@@ -23,7 +23,7 @@
 
 
 		void surf(Input IN, inout SurfaceOutput o) {
-			fixed4 col = tex2D(_MainTex, IN.uv_MainTex) * _Tint;
+			fixed4 col = tex2D(_MainTex, IN.uv_MainTex) * _Color;
 
 			o.Albedo = col.rgb;
 			o.Emission = col.rgb; // * _Color.a;
