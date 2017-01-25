@@ -13,11 +13,12 @@ public class CubeEffectAnimatorPulse : ICubeEffectAnimator {
     public CubeEffectAnimatorPulse(float speed, float minMod, float maxMod) {
         this.speed = speed;
         this.height = (maxMod - minMod) / 2;
-        this.offset = (minMod + maxMod) / 2;
+        this.offset = (maxMod + minMod) / 2;
     }
 
-    public void Update(ICubeEffect effect) {
-        ICubeEffectSettings settings = effect.GetSettings();
-        settings.FinalPower = (Mathf.Sin(Time.time * speed) * height) + offset;
+    public void Update(GridCubeMod mod) {
+        float multiplier = (Mathf.Sin(Time.time * speed) * height) + offset;
+        mod.Height *= multiplier;
+        mod.Color *= multiplier;
     }
 }

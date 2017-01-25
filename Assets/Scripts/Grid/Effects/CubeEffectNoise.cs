@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using UnityEngine;
 
-public class CubeEffectNoise : ICubeEffect {
+public class CubeEffectNoise : CubeEffect {
 
     private CubeEffectNoiseSettings settings;
     private List<ICubeEffectAnimator> animators = new List<ICubeEffectAnimator>();
@@ -13,89 +13,50 @@ public class CubeEffectNoise : ICubeEffect {
         this.settings = settings;
     }
 
-    public GridCubeMod Update(GridCube cube) {
-        foreach(ICubeEffectAnimator animator in animators) {
-            animator.Update(this);
-        }
-
-        CubeGrid grid = CubeGrid.Instance;
-        GridCubeMod mod = new GridCubeMod();
-
+    public override GridCubeMod Update(GridCube cube) {
         float timeScale = Time.time * settings.Speed;
-        float noiseValue = Mathf.PerlinNoise(settings.Position.x + timeScale, settings.Position.y + timeScale);
+        float noiseValue = Mathf.PerlinNoise((settings.Position.x + cube.transform.position.x) * settings.Scale + timeScale, (settings.Position.y + cube.transform.position.z) * settings.Scale + timeScale);
 
-        switch (settings.Mode) {
-            case CubeEffectModes.ALL:
-                ApplyHeight(mod, noiseValue);
-                ApplyColor(mod, noiseValue);
-                break;
+        settings.CurrentNoiseValue = noiseValue;
 
-            case CubeEffectModes.COLOR:
-                ApplyColor(mod, noiseValue);
-                break;
-
-            case CubeEffectModes.HEIGHT:
-                ApplyHeight(mod, noiseValue);
-                break;
-        }
-
-        return mod;
+        return base.Update(cube);
     }
 
-    private void ApplyHeight(GridCubeMod mod, float noiseValue) {
-        mod.Height = settings.FinalPower * noiseValue;
-    }
-    
-    private void ApplyColor(GridCubeMod mod, float noiseValue) {
-        mod.Color = settings.Color * Mathf.Abs(settings.FinalPower) * noiseValue;
+    public override void ApplyHeight(GridCubeMod mod) {
+        mod.Height = settings.Power * settings.CurrentNoiseValue;
     }
 
-    public void AddAnimator(ICubeEffectAnimator animator) {
-        animators.Add(animator);
+    public override void ApplyColor(GridCubeMod mod) {
+        mod.Color = settings.Color * Mathf.Abs(settings.Power) * settings.CurrentNoiseValue;
     }
 
-    public ICubeEffectSettings GetSettings() {
+    public override CubeEffectSettings GetSettings() {
         return settings;
     }
 }
 
-public class CubeEffectNoiseSettings : ICubeEffectSettings {
-
-    private CubeEffectModes mode;
-    private Vector2 position = Vector2.zero;
-    private float power;
-    private Color color;
+public class CubeEffectNoiseSettings : CubeEffectSettings {
     private float speed;
+    private float scale;
+    private float currentNoiseValue = 0;
 
-    public CubeEffectNoiseSettings(CubeEffectModes mode, Color color, float power, float speed) {
-        this.mode = mode;
-        this.power = power;
-        this.color = color;
+    public CubeEffectNoiseSettings(CubeEffectModes mode, Color color, float power, float speed, float scale) : base(mode, Vector2.zero, power, color) {
         this.speed = speed;
-    }
-
-    public CubeEffectModes Mode {
-        get { return mode; }
-        set { mode = value; }
-    }
-
-    public Vector2 Position {
-        get { return position; }
-        set { position = value; }
-    }
-
-    public Color Color {
-        get { return color; }
-        set { color = value; }
-    }
-
-    public float FinalPower {
-        get { return power; }
-        set { power = value; }
+        this.scale = scale;
     }
 
     public float Speed {
         get { return speed; }
         set { speed = value; }
+    }
+
+    public float Scale {
+        get { return scale; }
+        set { scale = value; }
+    }
+
+    public float CurrentNoiseValue {
+        get { return currentNoiseValue; }
+        set { currentNoiseValue = value; }
     }
 }

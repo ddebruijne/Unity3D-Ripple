@@ -21,7 +21,7 @@ public class GoalLight : MonoBehaviour {
         if (flashEffect == null) return;
 
         flashEffect.GetSettings().Color = flashColor;
-        flashEffect.GetSettings().FinalPower = Mathf.Clamp01(flashColorTime) * 0.75f;
+        flashEffect.GetSettings().Power = Mathf.Clamp01(flashColorTime) * 0.75f;
         flashColorTime = Mathf.Lerp(flashColorTime, 0, 0.1f);
     }
 
@@ -32,7 +32,7 @@ public class GoalLight : MonoBehaviour {
         playerID = player;
 
         if (flashEffect == null) {
-            flashEffect = new CubeEffectAll(new CubeEffectAllSettings(CubeEffectModes.COLOR, flashColor, 0));
+            flashEffect = new CubeEffectAll(new CubeEffectSettings(CubeEffectModes.COLOR, Vector2.zero, 0, flashColor));
             CubeGrid.Instance.AddEffect(flashEffect);
         }
     }

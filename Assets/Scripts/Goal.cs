@@ -19,7 +19,7 @@ public class Goal : MonoBehaviour {
         Vector2 origin2D = new Vector2(origin.x, origin.z);
         player.currentPos = origin2D + ((new Vector2(transform.position.x, transform.position.z) - origin2D).normalized * 4);
 
-        poleEffect = new CubeEffectCircle(new CubeEffectCircleSettings(CubeEffectModes.ALL, new Vector2(goalPost.transform.position.x, goalPost.transform.position.z), gridColor, 1, 5, 4));
+        poleEffect = new CubeEffectCircle(new CubeEffectCircleSettings(CubeEffectModes.ALL, new Vector2(goalPost.transform.position.x, goalPost.transform.position.z), gridColor, 3, 7.5f, 4));
         poleEffect.AddAnimator(new CubeEffectAnimatorPulse(1, 0.75f, 1.25f));
         CubeGrid.Instance.AddEffect(poleEffect);
     }

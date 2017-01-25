@@ -21,7 +21,7 @@ public class CubeGrid : MonoBehaviour {
     public Vector2 boundsX = Vector2.zero;
     public Vector2 boundsY = Vector2.zero;
 
-    private List<ICubeEffect> cubeEffects = new List<ICubeEffect>();
+    private List<CubeEffect> cubeEffects = new List<CubeEffect>();
 
     void Awake() {
         Instance = this;
@@ -69,14 +69,14 @@ public class CubeGrid : MonoBehaviour {
     }
 
     #region Cube Effects
-    public void AddEffect(ICubeEffect effect) {
+    public void AddEffect(CubeEffect effect) {
         cubeEffects.Add(effect);
     }
 
     public void UpdateEffects() {
         foreach(GridCube cube in cubes) {
             GridCubeMod tMod = new GridCubeMod();
-            foreach (ICubeEffect effect in cubeEffects) {
+            foreach (CubeEffect effect in cubeEffects) {
                 GridCubeMod mod = effect.Update(cube);
                 tMod.Combine(mod);
             }

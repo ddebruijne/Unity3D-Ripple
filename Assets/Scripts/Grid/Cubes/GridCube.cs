@@ -1,9 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 
 public class GridCube : MonoBehaviour {
-
 
     public Vector3 defaultPos;
     private Material material;
@@ -12,6 +12,8 @@ public class GridCube : MonoBehaviour {
     public bool isMoveable = true;
 
     public Vector3 originalScale;
+
+    private float h = 0;
 
     private Material Material {
         get {
@@ -36,7 +38,9 @@ public class GridCube : MonoBehaviour {
     }
 
 	public void UpdateCube (float height, Color color) {
-        if (isMoveable) transform.position = defaultPos + new Vector3(0, height, 0);
+        if (isMoveable) transform.position = defaultPos + new Vector3(0, height * 2, 0);
         if (Material != null) Material.SetColor("_Color", color);
+
+        h = height;
     }
 }

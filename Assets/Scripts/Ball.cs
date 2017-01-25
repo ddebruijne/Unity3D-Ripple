@@ -20,7 +20,6 @@ public class Ball : MonoBehaviour {
 
 	void OnCollisionEnter (Collision col) {
 		if(col.gameObject.tag == "Goal" && !hasScored) {
-			Debug.Log("Ayy lmao this is a goal!");
             col.gameObject.GetComponent<Goal>().OnScoreEvent();
             hasScored = true;
             DestroyBall();

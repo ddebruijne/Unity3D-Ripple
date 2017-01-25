@@ -5,5 +5,5 @@ using System.Text;
 using UnityEngine;
 
 public interface ICubeEffectAnimator {
-    void Update(ICubeEffect effect);
+    void Update(GridCubeMod effect);
 }

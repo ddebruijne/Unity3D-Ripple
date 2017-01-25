@@ -62,8 +62,10 @@ public class PlayerBall : MonoBehaviour {
 		score = 0;
 		playerStatus = PlayerStatus.Lobby;
 
-        playerEffect = new CubeEffectCircle(new CubeEffectCircleSettings(CubeEffectModes.ALL, Vector2.zero, CubeGrid.Instance.playerColors[playerIndex], 0, 4f, 4f));
-        playerEffect.AddAnimator(new CubeEffectAnimatorPulse(1, 0.25f, 0.5f));
+        CubeEffectCircleSettings effectSettings = new CubeEffectCircleSettings(CubeEffectModes.ALL, Vector2.zero, CubeGrid.Instance.playerColors[playerIndex], 0, 5f, 3f);
+        effectSettings.ColorOffset = 0.5f;
+        playerEffect = new CubeEffectCircle(effectSettings);
+        playerEffect.AddAnimator(new CubeEffectAnimatorPulse(1, 1f, 1.25f));
     }
 
 	void Awake () {
@@ -113,10 +115,13 @@ public class PlayerBall : MonoBehaviour {
 				GameManager.instance.AreTwoReady();
 			}
 			if ( XCI.GetButtonDown(XboxButton.A, MappedController) ) {
-				if ( playerIndex == 0 && GameManager.instance.AreTwoReady() ) GameManager.instance.GameStartCall();
+				if ( playerIndex == 0 && GameManager.instance.AreTwoReady()) GameManager.instance.GameStartCall();
 			}
 		}
 
+        if (Input.GetKeyDown(KeyCode.Space)) {
+            GameManager.instance.GameStartCall();
+        }
 
         Vector3 moveDirection = new Vector3( XCI.GetAxisRaw(XboxAxis.LeftStickX, MappedController), 0, XCI.GetAxisRaw(XboxAxis.LeftStickY, MappedController));
         moveDirection = cam.transform.TransformDirection(moveDirection);
@@ -130,7 +135,7 @@ public class PlayerBall : MonoBehaviour {
         if (currentPos.y > CubeGrid.Instance.boundsY.y) currentPos.y = CubeGrid.Instance.boundsY.y;
 
         playerEffect.GetSettings().Position = currentPos;
-        playerEffect.GetSettings().FinalPower = XCI.GetAxisRaw(XboxAxis.RightTrigger) * 4;
+        playerEffect.GetSettings().Power = (XCI.GetAxisRaw(XboxAxis.RightTrigger)) * 4;
 
         if (GameManager.instance.Balls != null) {
             foreach (GameObject o in GameManager.instance.Balls) {
@@ -141,7 +146,7 @@ public class PlayerBall : MonoBehaviour {
 
                 Vector2 oPos2D = new Vector2(oPos.x, oPos.z);
                 float distance = Vector2.Distance(oPos2D, currentPos);
-                Vector3 direction = (oPos - new Vector3(currentPos.x, oPos.y, currentPos.y));
+                Vector3 direction = (oPos - new Vector3(currentPos.x, oPos.y, currentPos.y)) + new Vector3(velocity.x, 0, velocity.y);
                 Vector3 force = direction * (Mathf.Clamp(((CubeGrid.Instance.raiseRange * 8) - distance), 0, float.MaxValue) * 1.2f * XCI.GetAxis(XboxAxis.RightTrigger, MappedController));
                 force.y = 0;
                 o.GetComponent<Rigidbody>().AddForce(force, ForceMode.Acceleration);

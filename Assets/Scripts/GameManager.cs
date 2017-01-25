@@ -32,8 +32,6 @@ public class GameManager : MonoBehaviour {
     private bool doneSpawning = false;
     private float levelStartTime = 0;
 
-    private CubeEffectCircle circleEffect;
-
 	void Start() {
 		instance = this;
 		CreatePlayers();
