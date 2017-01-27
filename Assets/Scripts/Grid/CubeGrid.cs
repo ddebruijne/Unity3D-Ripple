@@ -10,8 +10,7 @@ public class CubeGrid : MonoBehaviour {
     public List<GlassPulse> glasses = new List<GlassPulse>();
     public List<GameObject> goalParents = new List<GameObject>();
 
-    public float raiseRange = 2.5f;
-    public float maxRaiseHeight = 1;
+    public float pushRange = 2.5f;
 
     public int playerCount = 2;
     public List<Color> playerColors = new List<Color>();
@@ -27,18 +26,8 @@ public class CubeGrid : MonoBehaviour {
         Instance = this;
     }
 
-    void Start() {
-        BuildLevelSequence();
-    }
-
     void Update() {
         UpdateEffects();
-    }
-
-    public void BuildLevelSequence() {
-        List<GridCube> cubestoLoad = new List<GridCube>(cubes);
-        //LevelBuilder.Instance.GoToPhase(0, 0);
-        //LevelBuilder.Instance.GoToPhase(1, 0);
     }
 
     [ContextMenu("Setup Level")]
