@@ -214,7 +214,7 @@ public class GameManager : MonoBehaviour {
             glass.FlashColor(CubeGrid.Instance.playerColors[_PlayerIndex]);
         }
 
-        GameManager.instance.cam.gameObject.GetComponent<CameraController>().AddCameraShake(0.5f);
+        cam.gameObject.GetComponent<CameraController>().AddCameraShake(0.5f);
 
         UpdateScoreText();
 	}

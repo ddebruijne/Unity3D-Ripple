@@ -5,6 +5,7 @@ using UnityEngine;
 /*
  *		Player Class
  *		Handles input from the controller and follows the appropriate tiles on the wave.
+ *		
  *		Created 20-01-2017 by Danny de Bruijne
  */
 
