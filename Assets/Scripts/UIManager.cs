@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 /*
  *		UIManager Class
@@ -20,18 +21,52 @@ public class UIManager : MonoBehaviour {
 	public GameObject GameDone;
 
 	// Use this for initialization
-	void Start () {
+	void Start() {
 		Instance = this;
 	}
-	
+
 	// Update is called once per frame
-	void Update () {
-		
+	void Update() {
+
 	}
 
 	public void UpdateScoreText() {
-		//for ( int i = 0; i < PlayerObjects.Count; i++ ) {
-			//ScoreText[i].GetComponentInChildren<Text>().text = PlayerObjects[i].GetComponent<PlayerBall>().score + "";
-		//}
+		for ( int i = 0; i < NewGameManager.Instance.Players.Count; i++ ) {
+			ScoreText[i].GetComponentInChildren<Text>().text = NewGameManager.Instance.Players[i].GetComponent<PlayerBall>().score + "";
+		}
+	}
+
+	public void SetScoreTextColor(Color col, int _playerID) {
+		ScoreText[_playerID].GetComponentInChildren<Text>().color = col;
+	}
+
+	public void SetScoreTextActive(State _stateToSet, int _playerID) {
+		switch ( _stateToSet ) {
+			case State.Active:
+				ScoreText[_playerID].SetActive(true);
+				break;
+			case State.Inactive:
+				ScoreText[_playerID].SetActive(false);
+				break;
+			default:
+				break;
+
+		}
+	}
+
+	public void SetAllScoreTextActive(State _stateToSet) {
+		for ( int i = 0; i < NewGameManager.Instance.maxPlayers; i++ ) {
+			switch ( _stateToSet ) {
+				case State.Active:
+					ScoreText[i].SetActive(true);
+					break;
+				case State.Inactive:
+					ScoreText[i].SetActive(false);
+					break;
+				default:
+					break;
+
+			}
+		}
 	}
 }

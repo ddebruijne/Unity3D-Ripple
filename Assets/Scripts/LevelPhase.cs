@@ -12,12 +12,7 @@ using UnityEngine;
  *		Created 01-02-2017 by Danny de Bruijne
  */
 
-public enum GoalState {
-	Active,
-	Inactive
-}
-
-public enum TextState {
+public enum State {
 	Active,
 	Inactive
 }
@@ -25,12 +20,12 @@ public enum TextState {
 public class LevelPhase : MonoBehaviour {
 
 	[Header("Four goals")]
-	[ReadOnly] public GoalState[] ActiveGoalState;
+	[ReadOnly] public State[] ActiveGoalState;
 	public GameObject[] useGoals;
 	public GameObject[] notUseGoals;
 
 	[Header("3D Text")]
-	[ReadOnly]public TextState[] ActiveTextState;
+	[ReadOnly]public State[] ActiveTextState;
 	public GameObject[] text3D;
 
 	[Header("Spawn points")]
@@ -38,16 +33,16 @@ public class LevelPhase : MonoBehaviour {
 
 
 	void Start() {
-		SetAllGoals(GoalState.Active);
+		SetAllGoals(State.Active);
 	}
 
-	public void SetGoal(GoalState _stateToSet, int _playerID) {
+	public void SetGoal(State _stateToSet, int _playerID) {
 		switch ( _stateToSet ) {
-			case GoalState.Active:
+			case State.Active:
 				notUseGoals[_playerID].SetActive(false);
 				useGoals[_playerID].SetActive(true);
 				break;
-			case GoalState.Inactive:
+			case State.Inactive:
 				notUseGoals[_playerID].SetActive(true);
 				useGoals[_playerID].SetActive(false);
 				break;
@@ -58,14 +53,14 @@ public class LevelPhase : MonoBehaviour {
 		ActiveGoalState[_playerID] = _stateToSet;
 	}
 
-	public void SetAllGoals(GoalState _stateToSet) {
-		for(int i = 0; i < 4; i++ ) {
+	public void SetAllGoals(State _stateToSet) {
+		for(int i = 0; i < NewGameManager.Instance.maxPlayers; i++ ) {
 			switch ( _stateToSet ) {
-				case GoalState.Active:
+				case State.Active:
 					notUseGoals[i].SetActive(false);
 					useGoals[i].SetActive(true);
 					break;
-				case GoalState.Inactive:
+				case State.Inactive:
 					notUseGoals[i].SetActive(true);
 					useGoals[i].SetActive(false);
 					break;
@@ -77,12 +72,12 @@ public class LevelPhase : MonoBehaviour {
 		}
 	}
 
-	public void SetText(TextState _stateToSet, int _playerID) {
+	public void SetText(State _stateToSet, int _playerID) {
 		switch ( _stateToSet ) {
-			case TextState.Active:
+			case State.Active:
 				text3D[_playerID].SetActive(true);
 				break;
-			case TextState.Inactive:
+			case State.Inactive:
 				text3D[_playerID].SetActive(false);
 				break;
 			default:
@@ -92,13 +87,13 @@ public class LevelPhase : MonoBehaviour {
 		ActiveTextState[_playerID] = _stateToSet;
 	}
 
-	public void SetAllText(TextState _stateToSet) {
-		for(int i = 0; i < 4; i++ ) {
+	public void SetAllText(State _stateToSet) {
+		for(int i = 0; i < NewGameManager.Instance.maxPlayers; i++ ) {
 			switch ( _stateToSet ) {
-				case TextState.Active:
+				case State.Active:
 					text3D[i].SetActive(true);
 					break;
-				case TextState.Inactive:
+				case State.Inactive:
 					text3D[i].SetActive(false);
 					break;
 				default:
