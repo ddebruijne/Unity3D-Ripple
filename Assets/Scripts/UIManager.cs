@@ -20,19 +20,25 @@ public class UIManager : MonoBehaviour {
 	public List<GameObject> ScoreText;
 	public GameObject GameDone;
 
-	// Use this for initialization
-	void Start() {
-		Instance = this;
+	void Awake() { Instance = this; }
+
+	public void Setup(bool splash) {
+		Splash.SetActive(splash);
+		HUD.SetActive(false);
 	}
 
-	// Update is called once per frame
-	void Update() {
+	public void SplashAnimation() { StartCoroutine(SplashAnimationSequence()); }
 
+	public IEnumerator SplashAnimationSequence() {
+		Splash.GetComponent<Animator>().speed = 1;
+		yield return new WaitForSeconds(1);
+		Splash.SetActive(false);
+		NewGameManager.Instance.CameraAnimator.speed = 1;
 	}
 
 	public void UpdateScoreText() {
-		for ( int i = 0; i < NewGameManager.Instance.Players.Count; i++ ) {
-			ScoreText[i].GetComponentInChildren<Text>().text = NewGameManager.Instance.Players[i].GetComponent<PlayerBall>().score + "";
+		for ( int i = 0; i < NewGameManager.Instance.players.Count; i++ ) {
+			ScoreText[i].GetComponentInChildren<Text>().text = NewGameManager.Instance.players[i].GetComponent<NewPlayer>().score + "";
 		}
 	}
 

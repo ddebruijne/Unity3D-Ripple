@@ -33,10 +33,16 @@ public class LevelPhase : MonoBehaviour {
 
 
 	void Start() {
-		SetAllGoals(State.Active);
+		//SetAllGoals(State.Active);
+		if(text3D != null ) {
+			foreach ( GameObject go in text3D ) {
+				go.GetComponent<Animator>().speed = 0;
+			}
+		}
+
 	}
 
-	public void SetGoal(State _stateToSet, int _playerID) {
+	public void SetGoalActive(State _stateToSet, int _playerID) {
 		switch ( _stateToSet ) {
 			case State.Active:
 				notUseGoals[_playerID].SetActive(false);
@@ -53,7 +59,7 @@ public class LevelPhase : MonoBehaviour {
 		ActiveGoalState[_playerID] = _stateToSet;
 	}
 
-	public void SetAllGoals(State _stateToSet) {
+	public void SetAllGoalsActive(State _stateToSet) {
 		for(int i = 0; i < NewGameManager.Instance.maxPlayers; i++ ) {
 			switch ( _stateToSet ) {
 				case State.Active:
@@ -72,7 +78,7 @@ public class LevelPhase : MonoBehaviour {
 		}
 	}
 
-	public void SetText(State _stateToSet, int _playerID) {
+	public void SetTextActive(State _stateToSet, int _playerID) {
 		switch ( _stateToSet ) {
 			case State.Active:
 				text3D[_playerID].SetActive(true);
@@ -87,7 +93,7 @@ public class LevelPhase : MonoBehaviour {
 		ActiveTextState[_playerID] = _stateToSet;
 	}
 
-	public void SetAllText(State _stateToSet) {
+	public void SetAllTextActive(State _stateToSet) {
 		for(int i = 0; i < NewGameManager.Instance.maxPlayers; i++ ) {
 			switch ( _stateToSet ) {
 				case State.Active:
@@ -102,5 +108,13 @@ public class LevelPhase : MonoBehaviour {
 			}
 			ActiveTextState[i] = _stateToSet;
 		}
+	}
+
+	public void SetText(int _playerID, string _text) {
+		text3D[_playerID].GetComponent<TextMesh>().text = _text;
+	}
+
+	public void SetDefaultText(int _playerID) {
+		text3D[_playerID].GetComponent<TextMesh>().text = "P" + (_playerID + 1) + " R2";
 	}
 }

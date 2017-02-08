@@ -4,7 +4,22 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using XboxCtrlrInput;
 
-public class PlayerBall : MonoBehaviour {
+/*
+ *		NewPlayer Class
+ *		Rework of PlayerBall class so it works with NewGameManager
+ *		
+ *		Created 08-02-2017 by Danny de Bruijne
+ */
+
+public enum PlayerStatus {
+	Lobby,
+	Ready,
+	Game,
+	GameOver,
+	None
+}
+
+public class NewPlayer : MonoBehaviour {
 
 	[ReadOnly]  public int playerIndex;
 	[ReadOnly]  public XboxController MappedController;
@@ -15,7 +30,6 @@ public class PlayerBall : MonoBehaviour {
 	[ReadOnly]	public Vector2 currentPos = Vector2.zero;
 	[ReadOnly]	public Vector2 velocity = Vector2.zero;
 	[ReadOnly]	public float goalColorOffset = 0;
-	[ReadOnly]	public GameObject Player3DText;
 
 	//Controller shake for ready
 	float currentshakeammount;
@@ -61,7 +75,7 @@ public class PlayerBall : MonoBehaviour {
     }
 
 	void Awake () {
-        cam = GameManager.instance.cam;
+        cam = Camera.main;
 	}
 
     void Start() {
@@ -71,11 +85,8 @@ public class PlayerBall : MonoBehaviour {
 	private void OnDestroy() { XInputDotNetPure.GamePad.SetVibration(MappedControllerXinput, 0, 0); }
 
 	void Update () {
-		if ( !GameManager.instance.GameStarted ) {
+		if ( !NewGameManager.Instance.GameStarted ) {
 			return;
-		}
-		if ( playerStatus == PlayerStatus.Lobby ) {
-
 		}
 		ControllerInput();		
 	}
@@ -91,7 +102,7 @@ public class PlayerBall : MonoBehaviour {
 				//DONE WE READY
 				shakeammount = 0;
 				currentshakeammount = 0;
-				GameManager.instance.Ready(playerIndex);
+				NewGameManager.Instance.Ready(playerIndex);
 
 			} else {
 				shakeammount = 0;
@@ -103,16 +114,16 @@ public class PlayerBall : MonoBehaviour {
 			if(XCI.GetButtonDown(XboxButton.B, MappedController) ) {
 				//Unready
 				playerStatus = PlayerStatus.Lobby;
-				Player3DText.GetComponent<TextMesh>().text = "P" + (playerIndex+1) + " R2";
-				GameManager.instance.AreTwoReady();
+				NewGameManager.Instance.GetLevelPhase(NewGameManager.Instance.activeLevelPhase).SetDefaultText(playerIndex);
+				NewGameManager.Instance.ReadyCheck();
 			}
 			if ( XCI.GetButtonDown(XboxButton.A, MappedController) ) {
-				if ( playerIndex == 0 && GameManager.instance.AreTwoReady()) GameManager.instance.GameStartCall();
+				if ( playerIndex == 0 && NewGameManager.Instance.ReadyCheck()) NewGameManager.Instance.GameStart();
 			}
 		}
 
         if (Input.GetKeyDown(KeyCode.Space)) {
-            GameManager.instance.GameStartCall();
+			NewGameManager.Instance.GameStart();
         }
 
         Vector3 moveDirection = new Vector3( XCI.GetAxisRaw(XboxAxis.LeftStickX, MappedController), 0, XCI.GetAxisRaw(XboxAxis.LeftStickY, MappedController));
@@ -127,10 +138,11 @@ public class PlayerBall : MonoBehaviour {
         if (currentPos.y > CubeGrid.Instance.boundsY.y) currentPos.y = CubeGrid.Instance.boundsY.y;
 
         playerEffect.GetSettings().Position = currentPos;
-        playerEffect.GetSettings().Power = (XCI.GetAxisRaw(XboxAxis.RightTrigger)) * 4;
+        playerEffect.GetSettings().Power = (XCI.GetAxisRaw(XboxAxis.RightTrigger, MappedController)) * 4;
+		
 
-        if (GameManager.instance.Balls != null) {
-            foreach (GameObject o in GameManager.instance.Balls) {
+        if (NewGameManager.Instance.balls != null) {
+            foreach (GameObject o in NewGameManager.Instance.balls ) {
                 if (o == null) continue;
                 Vector3 oPos = o.transform.position;
 
