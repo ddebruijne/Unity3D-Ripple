@@ -2,6 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/*
+ *		GlassPulse Class
+ *		...
+ *		
+ *		Created 28-01-2017 by Randy Schouten
+ */
+
 public class GlassPulse : MonoBehaviour {
 
     private Material mat;

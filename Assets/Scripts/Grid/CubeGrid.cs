@@ -2,6 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/*
+ *		CubeGrid Class
+ *		...
+ *		
+ *		Created 28-01-2017 by Randy Schouten
+ */
+
 public class CubeGrid : MonoBehaviour {
 
     public static CubeGrid Instance;

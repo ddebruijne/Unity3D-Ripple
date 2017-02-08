@@ -4,6 +4,13 @@ using System.Linq;
 using System.Text;
 using UnityEngine;
 
+/*
+ *		GridCubeMod Class
+ *		...
+ *		
+ *		Created 28-01-2017 by Randy Schouten
+ */
+
 public class GridCubeMod {
     private float height = 0;
     private Color color = Color.black;

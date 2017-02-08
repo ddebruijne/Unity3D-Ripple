@@ -36,6 +36,27 @@ public class UIManager : MonoBehaviour {
 		NewGameManager.Instance.CameraAnimator.speed = 1;
 	}
 
+	public void GameDoneAnimation() {
+		StartCoroutine(GameDoneSequence());
+	}
+
+	IEnumerator GameDoneSequence() {
+		float aTime = 1;
+		float aValue = 1;
+		float alpha = GameDone.GetComponent<Image>().color.a;
+
+		for ( float t = 0.0f; t < 1.0f; t += Time.deltaTime / aTime ) {
+			Color newColor = new Color(1, 1, 1, Mathf.Lerp(alpha,aValue,t));
+			GameDone.GetComponent<Image>().color = newColor;
+			yield return null;
+		}
+	}
+
+	public void ActivateHUD() {
+		HUD.SetActive(true);
+		UpdateScoreText();
+	}
+
 	public void UpdateScoreText() {
 		for ( int i = 0; i < NewGameManager.Instance.players.Count; i++ ) {
 			ScoreText[i].GetComponentInChildren<Text>().text = NewGameManager.Instance.players[i].GetComponent<NewPlayer>().score + "";

@@ -22,6 +22,7 @@ public class LevelPhase : MonoBehaviour {
 	[Header("Four goals")]
 	[ReadOnly] public State[] ActiveGoalState;
 	public GameObject[] useGoals;
+	public Goal[] useGoalsHitboxes;
 	public GameObject[] notUseGoals;
 
 	[Header("3D Text")]
@@ -39,7 +40,6 @@ public class LevelPhase : MonoBehaviour {
 				go.GetComponent<Animator>().speed = 0;
 			}
 		}
-
 	}
 
 	public void SetGoalActive(State _stateToSet, int _playerID) {
@@ -116,5 +116,17 @@ public class LevelPhase : MonoBehaviour {
 
 	public void SetDefaultText(int _playerID) {
 		text3D[_playerID].GetComponent<TextMesh>().text = "P" + (_playerID + 1) + " R2";
+	}
+
+	public void AnimateText() {
+		if ( text3D != null ) {
+			foreach ( GameObject go in text3D ) {
+				go.GetComponent<Animator>().speed = 1;
+			}
+		}
+	}
+
+	public void AssignPlayerToGoal(NewPlayer _player) {
+		useGoalsHitboxes[_player.playerIndex].SetupGoal(_player);
 	}
 }

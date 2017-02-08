@@ -2,6 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/*
+ *		SoundManager Class
+ *		Used to play sounds.
+ *		
+ *		Created 28-01-2017 by Danny de Bruijne
+ */
+
 public enum SFX {
 	Goal,
 	MenuConfirm,

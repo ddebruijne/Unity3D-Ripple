@@ -4,6 +4,13 @@ using UnityEngine;
 
 public class UIRotate : MonoBehaviour {
 
+	/*
+	 *		UIRotate Class
+	 *		...
+	 *		
+	 *		Created 28-01-2017 by Danny de Bruijne
+	 */
+
 	float speed = 0.0065f;
 
 	private void FixedUpdate() {

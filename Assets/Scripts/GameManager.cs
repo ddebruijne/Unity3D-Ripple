@@ -107,7 +107,7 @@ public class GameManager : MonoBehaviour {
                     NotUseGoal.SetActive(false);
 					if ( Text3D != null ) Text3D.SetActive(true);
 
-                    GoalGO.GetComponentInChildren<Goal>().SetupGoal(PlayerObjects[i].GetComponent<PlayerBall>());
+                    //GoalGO.GetComponentInChildren<Goal>().SetupGoal(PlayerObjects[i].GetComponent<PlayerBall>());
                     Goals.Add(GoalGO.GetComponentInChildren<Goal>());
 					if ( Text3D != null ) Text3D.GetComponent<TextMesh>().color = GoalGO.GetComponentInChildren<Goal>().gridColor;
 					if ( Text3D != null ) PlayerObjects[i].GetComponent<PlayerBall>().Player3DText = Text3D;

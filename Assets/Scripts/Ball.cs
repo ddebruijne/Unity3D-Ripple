@@ -33,7 +33,7 @@ public class Ball : MonoBehaviour {
 	}
 
 	void DestroyBall() {
-        GameManager.instance.Balls.Remove(gameObject);
+        BallSpawner.Instance.balls.Remove(gameObject);
 		Destroy(this.gameObject);
 	}
 }

@@ -3,6 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
+/*
+ *		CubeEffect Class
+ *		...
+ *		
+ *		Created 28-01-2017 by Randy Schouten
+ */
+
 public abstract class CubeEffect {
 
     private List<ICubeEffectAnimator> animators = new List<ICubeEffectAnimator>();

@@ -141,8 +141,8 @@ public class NewPlayer : MonoBehaviour {
         playerEffect.GetSettings().Power = (XCI.GetAxisRaw(XboxAxis.RightTrigger, MappedController)) * 4;
 		
 
-        if (NewGameManager.Instance.balls != null) {
-            foreach (GameObject o in NewGameManager.Instance.balls ) {
+       if (BallSpawner.Instance.balls != null) {
+            foreach (GameObject o in BallSpawner.Instance.balls ) {
                 if (o == null) continue;
                 Vector3 oPos = o.transform.position;
 
@@ -174,7 +174,13 @@ public class NewPlayer : MonoBehaviour {
 		}
 	}
 
-	public void AddScore(int ammount) { score += ammount; }
+	public void AddScore(int ammount) {
+		if ( playerStatus != PlayerStatus.GameOver )
+			score += ammount;
+	}
 	
-	public void AddScore() { score++; }
+	public void AddScore() {
+		if(playerStatus != PlayerStatus.GameOver)
+			score++;
+	}
 }

@@ -4,6 +4,13 @@ using System.Linq;
 using System.Text;
 using UnityEngine;
 
+/*
+ *		CubeEffectAll Class
+ *		...
+ *		
+ *		Created 28-01-2017 by Randy Schouten
+ */
+
 public class CubeEffectAll : CubeEffect {
 
     private CubeEffectSettings settings;

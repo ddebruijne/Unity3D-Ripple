@@ -4,6 +4,13 @@ using System.Linq;
 using System.Text;
 using UnityEngine;
 
+/*
+ *		CubeEffectNoise Class
+ *		...
+ *		
+ *		Created 28-01-2017 by Randy Schouten
+ */
+
 public class CubeEffectNoise : CubeEffect {
 
     private CubeEffectNoiseSettings settings;

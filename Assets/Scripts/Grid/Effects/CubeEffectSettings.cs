@@ -4,6 +4,13 @@ using System.Linq;
 using System.Text;
 using UnityEngine;
 
+/*
+ *		CubeEffectSettings Class
+ *		...
+ *		
+ *		Created 28-01-2017 by Randy Schouten
+ */
+
 public class CubeEffectSettings {
     public CubeEffectModes Mode { get; set; }
     public Vector2 Position { get; set; }

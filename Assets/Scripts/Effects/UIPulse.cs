@@ -2,6 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/*
+ *		UIPulse Class
+ *		...
+ *		
+ *		Created 28-01-2017 by ?
+ */
+
 public class UIPulse : MonoBehaviour {
 
 	float amplitude = 0.0025f;

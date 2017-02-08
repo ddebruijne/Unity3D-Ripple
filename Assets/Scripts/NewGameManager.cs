@@ -20,13 +20,11 @@ public class NewGameManager : MonoBehaviour {
 	public bool showSplash;
 
 	[Header("Player")]
-	public GameObject playerPrefab;
-	public GameObject ballPrefab;
-
-	[Header("Readonly")]
 	[ReadOnly] public int maxPlayers = 4;
 	[ReadOnly] public List<GameObject> players;
-	[ReadOnly] public List<GameObject> balls = new List<GameObject>();
+	public GameObject playerPrefab;
+
+	[Header("Misc")]
 	[ReadOnly] public float time;				//lifetime
 	[ReadOnly] public int activeLevelPhase;
 	[ReadOnly] public Animator CameraAnimator;
@@ -96,14 +94,37 @@ public class NewGameManager : MonoBehaviour {
 			go.name = "Player " + i;
 			UIManager.Instance.SetScoreTextActive(State.Active, i);
 			UIManager.Instance.SetScoreTextColor(CubeGrid.Instance.playerColors[i], i);
+			GetLevelPhase(activeLevelPhase).AssignPlayerToGoal(go.GetComponent<NewPlayer>());
 			players.Add(go);
 		}
 	}
 
-	void SetPlayerObjects(int _playerID) {
-		//turn on/off player hud
-		//turn on/off goals
-		//turn on/off 3D text
+	void DisablePlayer(int _playerID) {
+		UIManager.Instance.SetScoreTextActive(State.Inactive, _playerID);			//HUD Score
+		GetLevelPhase(activeLevelPhase).SetGoalActive(State.Inactive, _playerID);	//Goal
+		GetLevelPhase(activeLevelPhase).SetTextActive(State.Inactive, _playerID);	//TextMesh
+	}
+
+	void NextSequence() {
+		//Reapply current values to new one
+		//start animations n such
+	}
+
+	public void FinishLevel() {
+		foreach (GameObject go in players ) {
+			go.GetComponent<NewPlayer>().playerStatus = PlayerStatus.GameOver;
+		}
+	}
+	
+	public void Score(int _playerID) {
+		players[_playerID].GetComponent<NewPlayer>().AddScore();
+
+		foreach ( GlassPulse glass in CubeGrid.Instance.glasses ) {
+			glass.FlashColor(CubeGrid.Instance.playerColors[_playerID]);
+		}
+
+		Camera.main.gameObject.GetComponent<CameraController>().AddCameraShake(0.5f);
+		UIManager.Instance.UpdateScoreText();
 	}
 	#endregion
 
@@ -137,8 +158,33 @@ public class NewGameManager : MonoBehaviour {
 		}
 	}
 
+	List<GameObject> playersToRemove = new List<GameObject>();
 	public void GameStart() {
+		for(int i = 0; i < maxPlayers; i++ ) {
+			if ( players[i].GetComponent<NewPlayer>().playerStatus != PlayerStatus.Ready ) {
+				playersToRemove.Add(players[i]);
+				DisablePlayer(i);
+			} else {
+				players[i].GetComponent<NewPlayer>().playerStatus = PlayerStatus.Game;
+			}
+		}
 
+		foreach(GameObject go in playersToRemove ) {
+			players.Remove(go);
+			Destroy(go);
+		}
+
+		StartCoroutine(GameStartSequence());
+	}
+
+	IEnumerator GameStartSequence() {
+		yield return new WaitForSeconds(1);
+		UIManager.Instance.ActivateHUD();
+		GetLevelPhase(activeLevelPhase).AnimateText();
+		BallSpawner.Instance.SpawnBalls();
+
+		yield return new WaitForSeconds(1);
+		//Enable camera rotation
 	}
 	#endregion
 }

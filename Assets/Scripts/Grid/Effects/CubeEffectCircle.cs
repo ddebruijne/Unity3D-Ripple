@@ -4,6 +4,13 @@ using System.Linq;
 using System.Text;
 using UnityEngine;
 
+/*
+ *		CubeEffectCircle Class
+ *		...
+ *		
+ *		Created 28-01-2017 by Randy Schouten
+ */
+
 public class CubeEffectCircle : CubeEffect {
 
     private CubeEffectCircleSettings settings;
