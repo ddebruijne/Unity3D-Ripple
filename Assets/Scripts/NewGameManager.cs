@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using XboxCtrlrInput;
 
 /*
  *		GameManager Class
@@ -43,7 +42,7 @@ public class NewGameManager : MonoBehaviour {
 		time += Time.deltaTime;
 
 		//Splash confirm with A
-		if ( (XCI.GetButtonDown(XboxButton.A, XboxController.First) || Input.GetKeyDown(KeyCode.Space)) && !GameStarted ) {
+		if ( (Input.GetButtonDown("0_A") || Input.GetKeyDown(KeyCode.Space)) && !GameStarted ) {
 			SoundManager.Instance.PlaySFX(SFX.MenuConfirm);
 			GameStarted = true;
 			UIManager.Instance.SplashAnimation();
@@ -132,7 +131,7 @@ public class NewGameManager : MonoBehaviour {
 	#region Lobby
 	public void Ready(int _playerindex) {
 		Debug.Log("P" + _playerindex + " Ready!");
-		XInputDotNetPure.GamePad.SetVibration(players[_playerindex].GetComponent<NewPlayer>().MappedControllerXinput, 100, 100);
+		//XInputDotNetPure.GamePad.SetVibration(players[_playerindex].GetComponent<NewPlayer>().MappedControllerXinput, 100, 100);
 		players[_playerindex].GetComponent<NewPlayer>().playerStatus = PlayerStatus.Ready;
 		GetLevelPhase(activeLevelPhase).SetText(_playerindex, "READY");
 		StartCoroutine(PlayerReadySequence(_playerindex));
@@ -141,7 +140,7 @@ public class NewGameManager : MonoBehaviour {
 
 	IEnumerator PlayerReadySequence(int _playerIndex) {
 		yield return new WaitForSeconds(1);
-		XInputDotNetPure.GamePad.SetVibration(players[_playerIndex].GetComponent<NewPlayer>().MappedControllerXinput, 0, 0);
+		//XInputDotNetPure.GamePad.SetVibration(players[_playerIndex].GetComponent<NewPlayer>().MappedControllerXinput, 0, 0);
 	}
 
 	public bool ReadyCheck() {
