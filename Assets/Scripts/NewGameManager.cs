@@ -15,7 +15,7 @@ public class NewGameManager : MonoBehaviour {
 
 	[Header("Level")]
 	public GameObject persistentLevel;
-	public List<GameObject> levelPhases;
+	public List<LevelPhase> levelPhases;
 	public bool showSplash;
 
 	[Header("Player")]
@@ -29,8 +29,10 @@ public class NewGameManager : MonoBehaviour {
 	[ReadOnly] public Animator CameraAnimator;
 	[ReadOnly] public bool GameStarted = false;
 
-	// Use this for initialization
-	void Start () {
+    private float levelStartTime = 1000000;
+
+    // Use this for initialization
+    void Start () {
 		Instance = this;
 		time = 0;
 		CameraAnimator = GetComponentInChildren<Animator>();
@@ -47,7 +49,18 @@ public class NewGameManager : MonoBehaviour {
 			GameStarted = true;
 			UIManager.Instance.SplashAnimation();
 		}
-	}
+
+        if ((BallSpawner.Instance.doneSpawning &&
+            ((Time.time - levelStartTime) >= 60 ||
+            BallSpawner.Instance.balls.Count == 0))) {
+                    BallSpawner.Instance.doneSpawning = false;
+                
+        }
+
+        if (Input.GetKeyDown(KeyCode.N)) {
+            NextSequence();
+        }
+    }
 
 	void Setup(){
 		//Show the splash screen?
@@ -65,7 +78,7 @@ public class NewGameManager : MonoBehaviour {
 		UIManager.Instance.UpdateScoreText();
 		GetLevelPhase(startlevelphase).SetAllGoalsActive(State.Active);
 		GetLevelPhase(startlevelphase).SetAllTextActive(State.Active);
-	}
+    }
 
 
 	#region Support Functions
@@ -74,15 +87,20 @@ public class NewGameManager : MonoBehaviour {
 	public LevelPhase GetLevelPhase(int _phaseID) { return levelPhases[_phaseID].GetComponent<LevelPhase>(); }
 
 	void SetActiveLevelPhase(int _phaseID) {
-		for(int i = 0; i < levelPhases.Count; i++ ) {
-			if(i == _phaseID ) {
-				levelPhases[i].SetActive(true);
-				activeLevelPhase = i;
-			} else {
-				levelPhases[i].SetActive(false);
 
-			}
-		}
+        LevelPhase toHide = GetLevelPhase(activeLevelPhase);
+        LevelPhase toShow = null;
+
+        for (int i = 0; i < levelPhases.Count; i++) {
+            if (i == _phaseID) {
+                activeLevelPhase = i;
+
+                toShow = levelPhases[i];
+            }
+        }
+
+        if (_phaseID == 0) return;
+        LevelBuilder.Instance.GoToPhase(toHide, toShow);
 	}
 
 	void CreatePlayers() {
@@ -105,14 +123,15 @@ public class NewGameManager : MonoBehaviour {
 	}
 
 	void NextSequence() {
-		//Reapply current values to new one
-		//start animations n such
+        SetActiveLevelPhase(activeLevelPhase + 1);
 	}
 
 	public void FinishLevel() {
 		foreach (GameObject go in players ) {
 			go.GetComponent<NewPlayer>().playerStatus = PlayerStatus.GameOver;
 		}
+
+        UIManager.Instance.GameDoneAnimation();
 	}
 	
 	public void Score(int _playerID) {
@@ -181,8 +200,9 @@ public class NewGameManager : MonoBehaviour {
 		UIManager.Instance.ActivateHUD();
 		GetLevelPhase(activeLevelPhase).AnimateText();
 		BallSpawner.Instance.SpawnBalls();
+        levelStartTime = Time.time;
 
-		yield return new WaitForSeconds(1);
+        yield return new WaitForSeconds(1);
 		//Enable camera rotation
 	}
 	#endregion

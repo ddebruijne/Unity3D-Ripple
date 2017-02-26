@@ -32,6 +32,11 @@ public class LevelPhase : MonoBehaviour {
 	[Header("Spawn points")]
 	public List<GameObject> ballSpawnPoints;
 
+    [Header("Level Blocks")]
+    [ReadOnly] public List<GridCube> cubes = new List<GridCube>();
+
+    [Header("Phase Settings")]
+    public float cameraOrtographicSize = 17;
 
 	void Start() {
 		//SetAllGoals(State.Active);
@@ -129,4 +134,16 @@ public class LevelPhase : MonoBehaviour {
 	public void AssignPlayerToGoal(NewPlayer _player) {
 		useGoalsHitboxes[_player.playerIndex].SetupGoal(_player);
 	}
+
+    public void SetActiveState(bool b) {
+        gameObject.SetActive(b);
+        foreach(GridCube cube in cubes) {
+            cube.updateCube = b;
+        }
+    }
+
+    [ContextMenu("Find Blocks")]
+    private void FindBlocks() {
+        cubes = new List<GridCube>(gameObject.GetComponentsInChildren<GridCube>(true));
+    }
 }

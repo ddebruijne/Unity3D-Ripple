@@ -71,7 +71,7 @@ public class CubeGrid : MonoBehaviour {
 
     public void UpdateEffects() {
         foreach(GridCube cube in cubes) {
-			if ( !cube.gameObject.activeInHierarchy ) continue;
+            if (!cube.updateCube) continue;
 
             GridCubeMod tMod = new GridCubeMod();
             foreach (CubeEffect effect in cubeEffects) {

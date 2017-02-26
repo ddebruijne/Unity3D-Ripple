@@ -16,7 +16,7 @@ public class BallSpawner : MonoBehaviour {
 	public GameObject ballPrefab;
 	public Transform ballSpawnPos;
 
-	private bool doneSpawning = false;
+	public bool doneSpawning = false;
 	private float levelStartTime = 0;
 
 	[ReadOnly] public List<GameObject> balls = new List<GameObject>();

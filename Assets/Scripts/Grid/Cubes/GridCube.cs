@@ -19,6 +19,8 @@ public class GridCube : MonoBehaviour {
 
     public Vector3 originalScale;
 
+    public bool updateCube = true;
+
     private float h = 0;
 
     private Material Material {
