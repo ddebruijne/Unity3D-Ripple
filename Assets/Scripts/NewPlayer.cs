@@ -66,7 +66,7 @@ public class NewPlayer : MonoBehaviour {
 	}
 
 	void ControllerInput() {
-		if(playerStatus == PlayerStatus.Lobby ) {
+		if ( playerStatus == PlayerStatus.Lobby ) {
 			//Resetting and confirmation
 			if ( shakeammount > 0 && shakeammount < 100 ) {
 				shakeammount -= shakefalloff;
@@ -84,15 +84,23 @@ public class NewPlayer : MonoBehaviour {
 			}
 
 
-		} else if (playerStatus == PlayerStatus.Ready ) {
-			if(Input.GetButtonDown(playerIndex + "_B") ) {
+		} else if ( playerStatus == PlayerStatus.Ready ) {
+			if ( Input.GetButtonDown(playerIndex + "_B") ) {
 				//Unready
 				playerStatus = PlayerStatus.Lobby;
 				NewGameManager.Instance.GetLevelPhase(NewGameManager.Instance.activeLevelPhase).SetDefaultText(playerIndex);
 				NewGameManager.Instance.ReadyCheck();
 			}
 			if ( Input.GetButtonDown(playerIndex + "_A") ) {
-				if ( playerIndex == 0 && NewGameManager.Instance.ReadyCheck()) NewGameManager.Instance.GameStart();
+				if ( playerIndex == 0 && NewGameManager.Instance.ReadyCheck() ) NewGameManager.Instance.GameStart();
+			}
+		} else if (playerStatus == PlayerStatus.Game ){
+			if(Input.GetButtonDown(playerIndex + "_Start") ) {
+				//pause game here.
+			} 
+		}else if (playerStatus == PlayerStatus.GameOver ) {
+			if(Input.GetButtonDown(playerIndex + "_Select") ) {
+				SceneManager.LoadScene(0);
 			}
 		}
 
