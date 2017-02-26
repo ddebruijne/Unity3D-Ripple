@@ -126,7 +126,7 @@ public class NewPlayer : MonoBehaviour {
                 Vector2 oPos2D = new Vector2(oPos.x, oPos.z);
                 float distance = Vector2.Distance(oPos2D, currentPos);
                 Vector3 direction = (oPos - new Vector3(currentPos.x, oPos.y, currentPos.y)) + new Vector3(velocity.x, 0, velocity.y);
-                Vector3 force = direction * (Mathf.Clamp((CubeGrid.Instance.pushRange - distance), 0, float.MaxValue) * 0.75f * Input.GetAxisRaw(playerIndex + "_Trigger"));
+                Vector3 force = direction * (Mathf.Clamp((CubeGrid.Instance.pushRange - distance), 0, float.MaxValue) * 0.5f * Input.GetAxisRaw(playerIndex + "_Trigger"));
                 force.y = 0;
                 o.GetComponent<Rigidbody>().AddForce(force, ForceMode.Acceleration);
             }
