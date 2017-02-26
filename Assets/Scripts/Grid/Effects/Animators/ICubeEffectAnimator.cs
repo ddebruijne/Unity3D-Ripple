@@ -12,5 +12,6 @@ using UnityEngine;
  */
 
 public interface ICubeEffectAnimator {
+    CubeEffectModes Mode { get; }
     void Update(GridCubeMod effect);
 }

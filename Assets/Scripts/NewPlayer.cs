@@ -45,7 +45,7 @@ public class NewPlayer : MonoBehaviour {
         CubeEffectCircleSettings effectSettings = new CubeEffectCircleSettings(CubeEffectModes.ALL, Vector2.zero, CubeGrid.Instance.playerColors[playerIndex], 0, 5f, 3f);
         effectSettings.ColorOffset = 0.5f;
         playerEffect = new CubeEffectCircle(effectSettings);
-        playerEffect.AddAnimator(new CubeEffectAnimatorPulse(1, 1f, 1.25f));
+        playerEffect.AddAnimator(new CubeEffectAnimatorPulse(CubeEffectModes.COLOR, 1, 1f, 2f));
     }
 
 	void Awake () {
