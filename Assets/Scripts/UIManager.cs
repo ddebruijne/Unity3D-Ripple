@@ -18,6 +18,7 @@ public class UIManager : MonoBehaviour {
 	public GameObject Splash;
 	public GameObject HUD;
 	public List<GameObject> ScoreText;
+	public Text FPSText;
 	public GameObject GameDone;
 
 	void Awake() { Instance = this; }
@@ -25,6 +26,10 @@ public class UIManager : MonoBehaviour {
 	public void Setup(bool splash) {
 		Splash.SetActive(splash);
 		HUD.SetActive(false);
+	}
+
+	void Update() {
+		FPSText.text = "FPS: " + Mathf.Round(1/Time.deltaTime);
 	}
 
 	public void SplashAnimation() { StartCoroutine(SplashAnimationSequence()); }
