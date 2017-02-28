@@ -24,12 +24,12 @@ public class NewGameManager : MonoBehaviour {
 	public GameObject playerPrefab;
 
 	[Header("Misc")]
-	[ReadOnly] public float time;				//lifetime
-	[ReadOnly] public int activeLevelPhase;
+	[ReadOnly] public float time;               //lifetime
+    [ReadOnly] public float levelStartTime = 1000000;
+    [ReadOnly] public float phaseRunTime = 0;
+    [ReadOnly] public int activeLevelPhase;
 	[ReadOnly] public Animator CameraAnimator;
 	[ReadOnly] public bool GameStarted = false;
-
-    private float levelStartTime = 1000000;
 
     // Use this for initialization
     void Start () {
@@ -43,15 +43,17 @@ public class NewGameManager : MonoBehaviour {
 	void Update () {
 		time += Time.deltaTime;
 
-		//Splash confirm with A
-		if ( (Input.GetButtonDown("0_A") || Input.GetKeyDown(KeyCode.Space)) && !GameStarted ) {
+        phaseRunTime = (Time.time - levelStartTime);
+
+        //Splash confirm with A
+        if ( (Input.GetButtonDown("0_A") || Input.GetKeyDown(KeyCode.Space)) && !GameStarted ) {
 			SoundManager.Instance.PlaySFX(SFX.MenuConfirm);
 			GameStarted = true;
 			UIManager.Instance.SplashAnimation();
 		}
 
         if (BallSpawner.Instance.doneSpawning &&
-            ((Time.time - levelStartTime) >= 60 ||
+            (phaseRunTime >= 60 ||
             BallSpawner.Instance.balls.Count == 0)) {
                     BallSpawner.Instance.doneSpawning = false;
             NextSequence();
@@ -103,6 +105,8 @@ public class NewGameManager : MonoBehaviour {
             }
         }
 
+        levelStartTime = Time.time;
+
         if (_phaseID == 0) return;
         LevelBuilder.Instance.GoToPhase(toHide, toShow);
 	}
@@ -140,7 +144,6 @@ public class NewGameManager : MonoBehaviour {
         }
 
         SetActiveLevelPhase(activeLevelPhase + 1);
-        levelStartTime = Time.time;
     }
 
 	public void FinishLevel() {
@@ -217,6 +220,8 @@ public class NewGameManager : MonoBehaviour {
 		UIManager.Instance.ActivateHUD();
 		GetLevelPhase(activeLevelPhase).AnimateText();
 		BallSpawner.Instance.SpawnBalls();
+
+        levelStartTime = Time.time;
 
         yield return new WaitForSeconds(1);
 		//Enable camera rotation
