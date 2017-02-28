@@ -115,16 +115,23 @@ public class NewGameManager : MonoBehaviour {
 			go.name = "Player " + i;
 			UIManager.Instance.SetScoreTextActive(State.Active, i);
 			UIManager.Instance.SetScoreTextColor(CubeGrid.Instance.playerColors[i], i);
-			GetLevelPhase(activeLevelPhase).AssignPlayerToGoal(go.GetComponent<NewPlayer>());
+
+            for(int e = 0; e < levelPhases.Count; e++) {
+                GetLevelPhase(e).AssignPlayerToGoal(go.GetComponent<NewPlayer>());
+            }
+
 			players.Add(go);
 		}
 	}
 
 	void DisablePlayer(int _playerID) {
-		UIManager.Instance.SetScoreTextActive(State.Inactive, _playerID);			//HUD Score
-		GetLevelPhase(activeLevelPhase).SetGoalActive(State.Inactive, _playerID);	//Goal
-		GetLevelPhase(activeLevelPhase).SetTextActive(State.Inactive, _playerID);	//TextMesh
-	}
+		UIManager.Instance.SetScoreTextActive(State.Inactive, _playerID);           //HUD Score
+
+        for (int e = 0; e < levelPhases.Count; e++) {
+            GetLevelPhase(e).SetGoalActive(State.Inactive, _playerID);   //Goal
+        }
+        GetLevelPhase(0).SetTextActive(State.Inactive, _playerID);  //TextMesh
+    }
 
 	void NextSequence() {
         SetActiveLevelPhase(activeLevelPhase + 1);
