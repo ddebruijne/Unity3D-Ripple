@@ -134,6 +134,11 @@ public class NewGameManager : MonoBehaviour {
     }
 
 	void NextSequence() {
+        if(activeLevelPhase +1 == levelPhases.Count) {
+            FinishLevel();
+            return;
+        }
+
         SetActiveLevelPhase(activeLevelPhase + 1);
         levelStartTime = Time.time;
     }
