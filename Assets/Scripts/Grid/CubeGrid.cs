@@ -27,10 +27,17 @@ public class CubeGrid : MonoBehaviour {
     public Vector2 boundsX = Vector2.zero;
     public Vector2 boundsY = Vector2.zero;
 
+    public CubeEffectNoise noiseEffect;
+
     private List<CubeEffect> cubeEffects = new List<CubeEffect>();
 
     void Awake() {
         Instance = this;
+    }
+
+    void Start() {
+        noiseEffect = new CubeEffectNoise(new CubeEffectNoiseSettings(CubeEffectModes.HEIGHT, Color.white, 0, 0.5f, 5));
+        AddEffect(noiseEffect);
     }
 
     void Update() {
@@ -50,7 +57,9 @@ public class CubeGrid : MonoBehaviour {
         glasses = new List<GlassPulse>(gameObject.GetComponentsInChildren<GlassPulse>(true));
 
         foreach(GlassPulse glass in glasses) {
-            glass.GetComponent<GridCube>().isMoveable = true;
+            glass.GetComponent<GridCube>().isMoveable = false;
+
+            glass.Prepare();
         }
     }
 

@@ -37,16 +37,16 @@ public class GridCube : MonoBehaviour {
     }
 
     public void SetToDefaultPosition() {
-        transform.position = GetDefaultPosition();
+        transform.localPosition = GetDefaultPosition();
         transform.localScale = new Vector3(transform.localScale.x, 8, transform.localScale.z);
     }
 
     public Vector3 GetDefaultPosition() {
-        return new Vector3(transform.position.x, -4 + heightOffset, transform.position.z);
+        return new Vector3(transform.localPosition.x, -4 + heightOffset, transform.localPosition.z);
     }
 
 	public void UpdateCube (float height, Color color) {
-        if (isMoveable) transform.position = defaultPos + new Vector3(0, height * 2, 0);
+        if (isMoveable) transform.localPosition = defaultPos + new Vector3(0, height * 2, 0);
         if (Material != null) Material.SetColor("_Color", color);
 
         h = height;

@@ -138,6 +138,10 @@ public class LevelPhase : MonoBehaviour {
     public void SetActiveState(bool b) {
         gameObject.SetActive(b);
         foreach(GridCube cube in cubes) {
+            if(cube.GetComponent<GlassPulse>() != null) {
+                cube.updateCube = false;
+                continue;
+            }
             cube.updateCube = b;
         }
     }

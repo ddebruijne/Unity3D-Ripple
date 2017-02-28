@@ -44,6 +44,7 @@ public class BallSpawner : MonoBehaviour {
 		}
 
 		doneSpawning = true;
+        Debug.Log("I'm done. I'm fucking done.");
 		yield return null;
 	}
 

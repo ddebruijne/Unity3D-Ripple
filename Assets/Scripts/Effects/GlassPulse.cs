@@ -12,14 +12,17 @@ using UnityEngine;
 public class GlassPulse : MonoBehaviour {
 
     private Material mat;
-    private Color startColor;
+    public Color startColor;
 
-    private Color flashColor;
-    private float flashColorTime = 0;
+    public Color flashColor;
+    public float flashColorTime = 0;
 
-    void Start() {
+    void Awake() {
         mat = GetComponent<MeshRenderer>().material;
-        startColor = mat.GetColor("_Color");
+    }
+
+    public void Prepare() {
+        startColor = GetComponent<MeshRenderer>().sharedMaterial.GetColor("_Color");
     }
 
     void Update() {

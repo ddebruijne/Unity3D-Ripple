@@ -50,11 +50,11 @@ public class NewGameManager : MonoBehaviour {
 			UIManager.Instance.SplashAnimation();
 		}
 
-        if ((BallSpawner.Instance.doneSpawning &&
+        if (BallSpawner.Instance.doneSpawning &&
             ((Time.time - levelStartTime) >= 60 ||
-            BallSpawner.Instance.balls.Count == 0))) {
+            BallSpawner.Instance.balls.Count == 0)) {
                     BallSpawner.Instance.doneSpawning = false;
-                
+            NextSequence();
         }
 
         if (Input.GetKeyDown(KeyCode.N)) {
@@ -78,6 +78,10 @@ public class NewGameManager : MonoBehaviour {
 		UIManager.Instance.UpdateScoreText();
 		GetLevelPhase(startlevelphase).SetAllGoalsActive(State.Active);
 		GetLevelPhase(startlevelphase).SetAllTextActive(State.Active);
+
+        for(int i = 0; i < levelPhases.Count; i++) {
+            levelPhases[i].SetActiveState(i == 0);
+        }
     }
 
 
@@ -124,7 +128,8 @@ public class NewGameManager : MonoBehaviour {
 
 	void NextSequence() {
         SetActiveLevelPhase(activeLevelPhase + 1);
-	}
+        levelStartTime = Time.time;
+    }
 
 	public void FinishLevel() {
 		foreach (GameObject go in players ) {
@@ -200,7 +205,6 @@ public class NewGameManager : MonoBehaviour {
 		UIManager.Instance.ActivateHUD();
 		GetLevelPhase(activeLevelPhase).AnimateText();
 		BallSpawner.Instance.SpawnBalls();
-        levelStartTime = Time.time;
 
         yield return new WaitForSeconds(1);
 		//Enable camera rotation
